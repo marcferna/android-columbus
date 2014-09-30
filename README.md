@@ -8,7 +8,7 @@ devices without any maps or audio/video guides.
 ## User Stories
 ### Required
 - User can scroll through the multiple museums in the area (Stream view)
-- User can see the different museums in the area in a map (Map view)
+- User can see the different museums in the area in a map, for which app offers tours (Map view)
 - User can scroll through the multiple museum exhibitions (Stream view)
 - User can see details of an specific museum exposition (Detail view)
 - App should be able to detect beacons nearby
