@@ -57,7 +57,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
   }
 
   public CirclePageIndicator(Context context, AttributeSet attrs) {
-    this(context, attrs, R.attr.vpiCirclePageIndicatorStyle);
+    this(context, attrs, R.attr.vpiUnderlinePageIndicatorStyle);
   }
 
   public CirclePageIndicator(Context context, AttributeSet attrs, int defStyle) {
@@ -99,7 +99,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
 
     a.recycle();
 
-    final ViewConfiguration configuration = ViewConfiguration.get(context);
+  final ViewConfiguration configuration = ViewConfiguration.get(context);
     mTouchSlop = ViewConfigurationCompat.getScaledPagingTouchSlop(configuration);
   }
 
