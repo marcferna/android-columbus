@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.codepath.columbus.columbus.activities.ExhibitActivity;
+import com.codepath.columbus.columbus.activities.ExhibitListActivity;
 
 public class MainActivity extends Activity {
 
