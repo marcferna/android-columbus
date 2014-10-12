@@ -28,6 +28,5 @@ dependencies {
   compile ('com.github.chrisbanes.actionbarpulltorefresh:extra-abs:+'){
       exclude group: 'com.android.support', module:'support-v4'
   }
-
   compile 'com.google.android.gms:play-services:6.1.11'
 }

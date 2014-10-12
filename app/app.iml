@@ -82,6 +82,7 @@
     <orderEntry type="library" exported="" name="extra-abs-0.9.9" level="project" />
     <orderEntry type="library" exported="" name="library-0.9.9" level="project" />
     <orderEntry type="library" exported="" name="viewpagerindicator-2.4.2" level="project" />
+    <orderEntry type="library" exported="" name="Parse-1.6.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-6.1.11" level="project" />
     <orderEntry type="library" exported="" name="library-0.4.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-20.0.0" level="project" />

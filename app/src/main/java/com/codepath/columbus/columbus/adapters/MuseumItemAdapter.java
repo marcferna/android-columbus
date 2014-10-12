@@ -35,7 +35,7 @@ public class MuseumItemAdapter extends ArrayAdapter<Museum> {
         }
 
         final LinearLayout llMuseum = (LinearLayout)convertView.findViewById(R.id.llMuseumItem);
-        ImageLoader.getInstance().loadImage(museum.url, new ImageLoadingListener() {
+        ImageLoader.getInstance().loadImage(museum.getImageUrl(), new ImageLoadingListener() {
             public void onLoadingStarted(String imageUri, View view) {
                 // show the progress bar
             }
@@ -53,7 +53,7 @@ public class MuseumItemAdapter extends ArrayAdapter<Museum> {
         });
 
         TextView tvMuseumName = (TextView)convertView.findViewById(R.id.tvMuseum);
-        tvMuseumName.setText(museum.name);
+        tvMuseumName.setText(museum.getName());
 
         return convertView;
     }

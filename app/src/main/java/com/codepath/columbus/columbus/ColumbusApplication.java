@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.StrictMode;
 
+import com.codepath.columbus.columbus.models.Museum;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -13,6 +14,8 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.parse.Parse;
+import com.parse.ParseObject;
 
 /**
  * Created by marc on 10/9/14.
@@ -33,6 +36,8 @@ public class ColumbusApplication extends Application{
     }
 
     initImageLoader(getApplicationContext());
+
+    setupParse();
   }
 
   public static void initImageLoader(Context context) {
@@ -50,5 +55,15 @@ public class ColumbusApplication extends Application{
                                           .tasksProcessingOrder(QueueProcessingType.LIFO).build();
 
     ImageLoader.getInstance().init(config);
+
+  }
+
+  public void setupParse(){
+
+      // initialize parse with columbus application id/client_key
+      Parse.initialize(this,"OAQsicQdL1q6JImFqg0bwAO5fxCzRYYFTXrzF1ih","PqgCWGd36DNxEzQmazyBManGsJZs4RPyKHn2QUd2");
+
+      // Register parse models
+      ParseObject.registerSubclass(Museum.class);
   }
 }
