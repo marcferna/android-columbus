@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.codepath.columbus.columbus.R;
+import com.codepath.columbus.columbus.models.Museum;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -25,7 +26,16 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 public class MuseumMapFragment extends Fragment implements
         GooglePlayServicesClient.ConnectionCallbacks,
@@ -58,6 +68,24 @@ public class MuseumMapFragment extends Fragment implements
         if (map != null) {
             map.setMyLocationEnabled(true);
         }
+
+        final BitmapDescriptor defaultMarker =
+                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+
+        ParseQuery.getQuery(Museum.class).findInBackground(new FindCallback<Museum>() {
+            @Override
+            public void done(List<Museum> museums, ParseException e) {
+                for (Museum museum : museums) {
+                    Marker mapMarker = map.addMarker(new MarkerOptions()
+                            .position(new LatLng(museum.getLocation().getLatitude(),
+                                    museum.getLocation().getLongitude()))
+                            .title(museum.getName())
+                            //.snippet("Open at: " + listing.hoursOpen)
+                            .icon(defaultMarker));
+                }
+            }
+        });
+
         return v;
     }
 

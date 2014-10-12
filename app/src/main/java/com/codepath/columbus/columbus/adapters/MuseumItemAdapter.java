@@ -4,6 +4,7 @@ package com.codepath.columbus.columbus.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,8 @@ public class MuseumItemAdapter extends ArrayAdapter<Museum> {
         });
 
         TextView tvMuseumName = (TextView)convertView.findViewById(R.id.tvMuseum);
-        tvMuseumName.setText(museum.getName());
+        String name = "<b><font color=\"#15c2fb\">"+museum.getName()+" </b></font>";
+        tvMuseumName.setText(Html.fromHtml(name));
 
         return convertView;
     }
