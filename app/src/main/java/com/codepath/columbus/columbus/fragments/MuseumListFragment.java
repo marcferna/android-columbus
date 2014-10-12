@@ -9,10 +9,9 @@ import android.widget.ListView;
 
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.adapters.MuseumItemAdapter;
-import com.codepath.columbus.columbus.com.codepath.columbus.columbus.models.Museum;
+import com.codepath.columbus.columbus.models.Museum;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;

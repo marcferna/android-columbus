@@ -1,4 +1,4 @@
-package com.codepath.columbus.columbus.com.codepath.columbus.columbus.models;
+package com.codepath.columbus.columbus.models;
 
 import java.util.ArrayList;
 import java.util.List;

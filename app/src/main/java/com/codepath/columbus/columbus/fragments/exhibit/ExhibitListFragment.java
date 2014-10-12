@@ -11,7 +11,7 @@ import android.widget.ListView;
 
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.adapters.ExhibitListAdapter;
-import com.codepath.columbus.columbus.com.codepath.columbus.columbus.models.Exhibit;
+import com.codepath.columbus.columbus.models.Exhibit;
 
 import java.util.ArrayList;
 

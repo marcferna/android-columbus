@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.codepath.columbus.columbus.R;
-import com.codepath.columbus.columbus.com.codepath.columbus.columbus.models.Museum;
+import com.codepath.columbus.columbus.models.Museum;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
