@@ -18,21 +18,40 @@
 
   <FrameLayout
     android:layout_width="fill_parent"
-    android:layout_height="50dp"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentBottom="true"
-    android:id="@+id/playerLayout">
-  </FrameLayout>
-
-  <FrameLayout
-    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_below="@+id/headerLayout"
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"
+    android:id="@+id/contentLayout"
     android:layout_above="@+id/playerLayout"
-    android:id="@+id/contentLayout">
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true">
   </FrameLayout>
+
+  <LinearLayout
+    android:id="@+id/playerLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="88dp"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:orientation="vertical">
+
+    <ProgressBar
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/pbMediaPlayerPreparation"
+      android:layout_gravity="center_horizontal"/>
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textAppearance="?android:attr/textAppearanceSmall"
+      android:text="@string/media_player_loading"
+      android:id="@+id/tvLoadingMediaPlayer"
+      android:layout_gravity="center_horizontal"/>
+  </LinearLayout>
 
 </RelativeLayout>

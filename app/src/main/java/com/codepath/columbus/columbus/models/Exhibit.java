@@ -17,6 +17,7 @@ public class Exhibit extends ParseObject implements Parcelable {
     private String descriptionShort;
     private ArrayList<String> imageUrls;
     private String beaconId;
+    private String audioUrl;
     private long ratingAverage;
     private double distance;
 
@@ -64,7 +65,15 @@ public class Exhibit extends ParseObject implements Parcelable {
         put("beaconId", beaconId);
     }
 
-    public void setDistance(double distance) {
+    public String getAudioUrl() {
+      return getString("audioUrl");
+    }
+
+    public void setAudioUrl(String audioUrl) {
+      put("audioUrl", audioUrl);
+    }
+
+  public void setDistance(double distance) {
         this.distance = distance;
     }
 
@@ -94,6 +103,7 @@ public class Exhibit extends ParseObject implements Parcelable {
     descriptionLong = in.readString();
     imageUrls = in.readArrayList(String.class.getClassLoader());
     beaconId = in.readString();
+    audioUrl = in.readString();
     ratingAverage = in.readLong();
   }
 
@@ -109,6 +119,7 @@ public class Exhibit extends ParseObject implements Parcelable {
     parcel.writeString(descriptionLong);
     parcel.writeStringList(imageUrls);
     parcel.writeString(beaconId);
+    parcel.writeString(audioUrl);
     parcel.writeLong(ratingAverage);
   }
 

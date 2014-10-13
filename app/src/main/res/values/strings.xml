@@ -21,5 +21,6 @@
     <string name="exhibit_create_comment_text_view_hint">Enter a comment</string>
     <string name="exhibit_create_comment_button_post">Post</string>
     <string name="exhibit_create_comment_button_cancel">Cancel</string>
+  <string name="media_player_loading">Loading audio tour...</string>
 
 </resources>
