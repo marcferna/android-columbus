@@ -10,5 +10,6 @@
     <string name="exhibit_title_default">Exhibit Title</string>
     <string name="exhibit_desc_default">Short exhibit description</string>
     <string name="title_activity_museum">Museums</string>
+    <string name="default_distance">0 ft</string>
 
 </resources>

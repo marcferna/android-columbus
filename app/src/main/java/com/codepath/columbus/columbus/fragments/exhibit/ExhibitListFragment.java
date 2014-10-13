@@ -34,7 +34,14 @@ public class ExhibitListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_exhibit_list, container, false);
         lvExhibitList = (ListView) v.findViewById(R.id.lvExhibitList);
         lvExhibitList.setAdapter(aExhibits);
-        aExhibits.add(Exhibit.testInit());
+        aExhibits.add(Exhibit.dummyObject(0));
+        aExhibits.add(Exhibit.dummyObject(100));
+        aExhibits.add(Exhibit.dummyObject(1200));
+        aExhibits.add(Exhibit.dummyObject(500));
+        aExhibits.add(Exhibit.dummyObject(0));
+        aExhibits.add(Exhibit.dummyObject(0));
+        aExhibits.add(Exhibit.dummyObject(300));
+
         return v;
     }
 

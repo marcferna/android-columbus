@@ -19,6 +19,7 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> {
     private static class ViewHolder {
         TextView tvExhibitTitle;
         TextView tvExhibitShortDesc;
+        TextView tvDistance;
         ImageView ivExhibitImage;
     }
 
@@ -28,7 +29,7 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Exhibit exhibit = Exhibit.testInit();
+        Exhibit exhibit = (Exhibit) getItem(position);
         ViewHolder viewHolder;
 
         // Check if this is recycled view, if not, create / inflate it.
@@ -38,6 +39,7 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> {
             // Get resources from view to populate
             viewHolder.tvExhibitTitle = (TextView) convertView.findViewById(R.id.tvExhibitTitle);
             viewHolder.tvExhibitShortDesc = (TextView) convertView.findViewById(R.id.tvExhibitShortDesc);
+            viewHolder.tvDistance = (TextView) convertView.findViewById(R.id.tvDistance);
             viewHolder.ivExhibitImage = (ImageView) convertView.findViewById(R.id.ivExhibitImage);
             convertView.setTag(viewHolder);
         }
@@ -54,6 +56,11 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> {
         imageLoader.displayImage(exhibit.getImageUrls().get(0), viewHolder.ivExhibitImage);
         viewHolder.tvExhibitTitle.setText(exhibit.getName());
         viewHolder.tvExhibitShortDesc.setText(exhibit.getShortDescription());
+        if(exhibit.getDistance() == 0) {
+            viewHolder.tvDistance.setVisibility(View.GONE);
+        } else {
+            viewHolder.tvDistance.setText(Integer.toString(exhibit.getDistance()) + " ft");
+        }
 
         return convertView;
     }
