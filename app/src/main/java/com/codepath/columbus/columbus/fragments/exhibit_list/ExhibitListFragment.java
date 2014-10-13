@@ -1,4 +1,4 @@
-package com.codepath.columbus.columbus.fragments.exhibit;
+package com.codepath.columbus.columbus.fragments.exhibit_list;
 
 
 import android.os.Bundle;

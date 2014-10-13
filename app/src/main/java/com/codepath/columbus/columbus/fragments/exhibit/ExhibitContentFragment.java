@@ -12,13 +12,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.codepath.columbus.columbus.R;
+import com.codepath.columbus.columbus.adapters.ExhibitContentPageAdapter;
+import com.viewpagerindicator.TabPageIndicator;
 
 /**
  * A simple {@link Fragment} subclass.
  *
  */
-public class ExhibitContentFragment extends Fragment {
+public class ExhibitContentFragment extends SherlockFragment {
+
+  ExhibitContentPageAdapter pagerAdapter;
 
   static final int NUM_ITEMS = 10;
 
@@ -40,32 +45,14 @@ public class ExhibitContentFragment extends Fragment {
                            Bundle savedInstanceState) {
       // Inflate the layout for this fragment
     View v = inflater.inflate(R.layout.fragment_exhibit_content, container, false);
-    // ViewPager and its adapters use support library
-    // fragments, so use getSupportFragmentManager.
-    mDemoCollectionPagerAdapter =
-        new ExhibitContentPagerAdapter(activity.getSupportFragmentManager());
-    viewPager = (ViewPager) v.findViewById(R.id.vpExhibitContent);
-    viewPager.setAdapter(ExhibitContentPagerAdapter);
+
+    viewPager = (ViewPager) v.findViewById(R.id.vpPager);
+    pagerAdapter = new ExhibitContentPageAdapter(activity.getSupportFragmentManager());
+    viewPager.setAdapter(pagerAdapter);
+
+    TabPageIndicator titleIndicator = (TabPageIndicator) v.findViewById(R.id.titles);
+    titleIndicator.setViewPager(viewPager);
+
+    return v;
   }
-
-
-  // Since this is an object collection, use a FragmentStatePagerAdapter,
-  // and NOT a FragmentPagerAdapter.
-  public class ExhibitContentPagerAdapter extends FragmentPagerAdapter {
-    public ExhibitContentPagerAdapter(FragmentManager fm) {
-      super(fm);
-    }
-
-    @Override
-    public int getCount() {
-      return NUM_ITEMS;
-    }
-
-    @Override
-    public Fragment getItem(int position) {
-      return ArrayListFragment.newInstance(position);
-    }
-  }
-
-
 }

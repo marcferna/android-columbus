@@ -8,7 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.codepath.columbus.columbus.R;
-import com.codepath.columbus.columbus.fragments.exhibit.ExhibitListFragment;
+import com.codepath.columbus.columbus.fragments.exhibit_list.ExhibitListFragment;
 
 public class ExhibitListActivity extends FragmentActivity {
     private ExhibitListFragment exhibitListFragment;
