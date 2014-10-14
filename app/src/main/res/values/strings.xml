@@ -11,5 +11,8 @@
     <string name="exhibit_desc_default">Short exhibit description</string>
     <string name="title_activity_museum">Museums</string>
     <string name="default_distance">0 ft</string>
+  <string name="item_comment_default_username">Username</string>
+  <string name="item_comment_default_created_at">Yesterday</string>
+  <string name="item_comment_default_comment">Comment</string>
 
 </resources>

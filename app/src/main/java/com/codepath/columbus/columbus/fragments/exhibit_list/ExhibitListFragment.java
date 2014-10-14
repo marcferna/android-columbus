@@ -7,12 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.adapters.ExhibitListAdapter;
 import com.codepath.columbus.columbus.models.Exhibit;
-import com.codepath.columbus.columbus.models.ExhibitDistanceComparator;
+import com.codepath.columbus.columbus.utils.ExhibitDistanceComparator;
 
 import java.util.ArrayList;
 import java.util.Collections;

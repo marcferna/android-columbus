@@ -1,4 +1,6 @@
-package com.codepath.columbus.columbus.models;
+package com.codepath.columbus.columbus.utils;
+
+import com.codepath.columbus.columbus.models.Exhibit;
 
 import java.util.Comparator;
 
