@@ -13,9 +13,14 @@ import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.models.Exhibit;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ExhibitListAdapter extends ArrayAdapter<Exhibit> {
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+
+public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyListHeadersAdapter {
+    private ArrayList<Exhibit> exhibitsList;
+
     private static class ViewHolder {
         TextView tvExhibitTitle;
         TextView tvExhibitShortDesc;
@@ -23,8 +28,9 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> {
         ImageView ivExhibitImage;
     }
 
-    public ExhibitListAdapter(Context context, List<Exhibit> exhibits) {
+    public ExhibitListAdapter(Context context, ArrayList<Exhibit> exhibits) {
         super(context, R.layout.item_exhibit_list, exhibits);
+        exhibitsList = exhibits;
     }
 
     @Override
@@ -51,7 +57,6 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> {
         viewHolder.ivExhibitImage.setImageResource(0);
 
         // Populate resources
-        Log.i("INFO", "setting up data");
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.displayImage(exhibit.getImageUrls().get(0), viewHolder.ivExhibitImage);
         viewHolder.tvExhibitTitle.setText(exhibit.getName());
@@ -59,9 +64,47 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> {
         if(exhibit.getDistance() == 0) {
             viewHolder.tvDistance.setVisibility(View.GONE);
         } else {
+            viewHolder.tvDistance.setVisibility(View.VISIBLE);
             viewHolder.tvDistance.setText(Integer.toString(exhibit.getDistance()) + " ft");
         }
 
         return convertView;
+    }
+
+    class HeaderViewHolder {
+        TextView text;
+    }
+
+    @Override
+    public View getHeaderView(int position, View convertView, ViewGroup parent) {
+        HeaderViewHolder holder;
+        if (convertView == null) {
+            holder = new HeaderViewHolder();
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.header_list, parent, false);
+            holder.text = (TextView) convertView.findViewById(R.id.tvHeader);
+            convertView.setTag(holder);
+        } else {
+            holder = (HeaderViewHolder) convertView.getTag();
+        }
+        //set header text
+        String headerText;
+        Exhibit item = exhibitsList.get(position);
+        if(item.getDistance() > 0) {
+            headerText = "Nearby items";
+        } else {
+            headerText = "All items";
+        }
+
+        holder.text.setText(headerText);
+        return convertView;
+    }
+
+    @Override
+    public long getHeaderId(int position) {
+        Exhibit item = exhibitsList.get(position);
+        if(item.getDistance() > 0) {
+            return 1;
+        }
+        return 0;
     }
 }
