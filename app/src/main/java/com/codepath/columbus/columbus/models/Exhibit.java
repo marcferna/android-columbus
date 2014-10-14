@@ -2,8 +2,10 @@ package com.codepath.columbus.columbus.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Comparator;
 
 public class Exhibit extends Object {
+
     private String exhibitId;
     private String name;
     private String shortDescription;
@@ -45,4 +47,8 @@ public class Exhibit extends Object {
         exhibit.distance = distance;
         return exhibit;
     }
+
 }
+
+
+

@@ -12,11 +12,15 @@ import android.widget.ListView;
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.adapters.ExhibitListAdapter;
 import com.codepath.columbus.columbus.models.Exhibit;
+import com.codepath.columbus.columbus.models.ExhibitDistanceComparator;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class ExhibitListFragment extends Fragment {
-    private ListView lvExhibitList;
+    private StickyListHeadersListView lvExhibitList;
     private ArrayList<Exhibit> exhibits;
     private ArrayAdapter<Exhibit> aExhibits;
 
@@ -32,17 +36,27 @@ public class ExhibitListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_exhibit_list, container, false);
-        lvExhibitList = (ListView) v.findViewById(R.id.lvExhibitList);
-        lvExhibitList.setAdapter(aExhibits);
-        aExhibits.add(Exhibit.dummyObject(0));
-        aExhibits.add(Exhibit.dummyObject(100));
-        aExhibits.add(Exhibit.dummyObject(1200));
-        aExhibits.add(Exhibit.dummyObject(500));
-        aExhibits.add(Exhibit.dummyObject(0));
-        aExhibits.add(Exhibit.dummyObject(0));
-        aExhibits.add(Exhibit.dummyObject(300));
+        lvExhibitList = (StickyListHeadersListView) v.findViewById(R.id.lvExhibitList);
+        lvExhibitList.setAdapter((se.emilsjolander.stickylistheaders.StickyListHeadersAdapter) aExhibits);
+
+        addDummyData();
+        Collections.sort(exhibits, new ExhibitDistanceComparator());
 
         return v;
     }
 
+    private void addDummyData() {
+        aExhibits.add(Exhibit.dummyObject(0));
+        aExhibits.add(Exhibit.dummyObject(100));
+        aExhibits.add(Exhibit.dummyObject(900));
+        aExhibits.add(Exhibit.dummyObject(500));
+        aExhibits.add(Exhibit.dummyObject(0));
+        aExhibits.add(Exhibit.dummyObject(0));
+        aExhibits.add(Exhibit.dummyObject(300));
+        aExhibits.add(Exhibit.dummyObject(0));
+        aExhibits.add(Exhibit.dummyObject(0));
+        aExhibits.add(Exhibit.dummyObject(0));
+        aExhibits.add(Exhibit.dummyObject(300));
+        aExhibits.add(Exhibit.dummyObject(800));
+    }
 }
