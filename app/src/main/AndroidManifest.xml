@@ -38,7 +38,7 @@
         <activity
             android:name=".activities.ExhibitListActivity"
             android:label="@string/title_activity_exhibit_list" >
-        </activity>
+         </activity>
         <activity
             android:name=".activities.MuseumActivity"
             android:label="@string/title_activity_museum" >

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.codepath.columbus.columbus.R;
+import com.codepath.columbus.columbus.activities.ExhibitListActivity;
 import com.codepath.columbus.columbus.models.Museum;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -75,13 +76,23 @@ public class MuseumMapFragment extends Fragment implements
         ParseQuery.getQuery(Museum.class).findInBackground(new FindCallback<Museum>() {
             @Override
             public void done(List<Museum> museums, ParseException e) {
-                for (Museum museum : museums) {
+                for (final Museum museum : museums) {
                     Marker mapMarker = map.addMarker(new MarkerOptions()
                             .position(new LatLng(museum.getLocation().getLatitude(),
                                     museum.getLocation().getLongitude()))
                             .title(museum.getName())
-                            //.snippet("Open at: " + listing.hoursOpen)
                             .icon(defaultMarker));
+
+                    // setting the listener on the Museum
+                    map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker) {
+                            Intent i = new Intent(getActivity(), ExhibitListActivity.class);
+                            i.putExtra("museumId",museum.getObjectId());
+                            getActivity().startActivity(i);
+                            return true;
+                        }
+                    });
                 }
             }
         });
@@ -163,7 +174,7 @@ public class MuseumMapFragment extends Fragment implements
         Location location = mLocationClient.getLastLocation();
         if (location != null) {
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
             map.animateCamera(cameraUpdate);
         } else {
             Toast.makeText(this.getActivity(), "Current location was null, enable GPS", Toast.LENGTH_SHORT).show();

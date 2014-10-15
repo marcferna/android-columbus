@@ -1,7 +1,9 @@
 package com.codepath.columbus.columbus.adapters;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.text.Html;
@@ -13,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.codepath.columbus.columbus.R;
+import com.codepath.columbus.columbus.activities.ExhibitListActivity;
 import com.codepath.columbus.columbus.models.Museum;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -22,20 +25,34 @@ import java.util.List;
 
 public class MuseumItemAdapter extends ArrayAdapter<Museum> {
 
+    private Activity activity;
+
     public MuseumItemAdapter(Context context, int resource, List<Museum> museums) {
         super(context, resource, museums);
+        activity = (Activity)context;
     }
 
     // TODO - ViewHolder
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Museum museum = getItem(position);
+        final Museum museum = getItem(position);
         if (convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.museum_item,parent,false);
         }
 
         final LinearLayout llMuseum = (LinearLayout)convertView.findViewById(R.id.llMuseumItem);
+
+        // setting the listener on the Museum
+        llMuseum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), ExhibitListActivity.class);
+                i.putExtra("museumId",museum.getObjectId());
+                activity.startActivity(i);
+            }
+        });
+
         ImageLoader.getInstance().loadImage(museum.getImageUrl(), new ImageLoadingListener() {
             public void onLoadingStarted(String imageUri, View view) {
                 // show the progress bar
