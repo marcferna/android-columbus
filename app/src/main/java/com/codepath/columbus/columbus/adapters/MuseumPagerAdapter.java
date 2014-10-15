@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.codepath.columbus.columbus.fragments.MuseumListFragment;
-import com.codepath.columbus.columbus.fragments.MuseumMapFragment;
+import com.codepath.columbus.columbus.fragments.museum.MuseumListFragment;
+import com.codepath.columbus.columbus.fragments.museum.MuseumMapFragment;
 
 public class MuseumPagerAdapter extends FragmentPagerAdapter {
 

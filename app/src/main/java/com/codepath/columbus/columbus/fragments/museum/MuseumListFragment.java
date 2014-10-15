@@ -1,4 +1,4 @@
-package com.codepath.columbus.columbus.fragments;
+package com.codepath.columbus.columbus.fragments.museum;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

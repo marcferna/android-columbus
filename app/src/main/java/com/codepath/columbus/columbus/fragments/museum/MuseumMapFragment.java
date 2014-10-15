@@ -1,4 +1,4 @@
-package com.codepath.columbus.columbus.fragments;
+package com.codepath.columbus.columbus.fragments.museum;
 
 
 
