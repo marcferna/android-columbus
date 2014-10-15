@@ -60,7 +60,7 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyL
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.displayImage(exhibit.getImageUrls().get(0), viewHolder.ivExhibitImage);
         viewHolder.tvExhibitTitle.setText(exhibit.getName());
-        viewHolder.tvExhibitShortDesc.setText(exhibit.getShortDescription());
+        viewHolder.tvExhibitShortDesc.setText(exhibit.getDescriptionShort());
         if(exhibit.getDistance() == 0) {
             viewHolder.tvDistance.setVisibility(View.GONE);
         } else {
