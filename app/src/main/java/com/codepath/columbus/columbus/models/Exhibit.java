@@ -1,5 +1,8 @@
 package com.codepath.columbus.columbus.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
@@ -8,24 +11,18 @@ import java.util.List;
 import java.util.Comparator;
 
 @ParseClassName("Exhibit")
-public class Exhibit extends ParseObject {
+public class Exhibit extends ParseObject implements Parcelable {
 
-    private String objectId;
     private String name;
     private String descriptionLong;
     private String descriptionShort;
     private ArrayList<String> imageUrls;
     private String beaconId;
+    private long ratingAverage;
     private int distance;
 
-    @Override
-    public String getObjectId() {
-        return getString("objectId");
-    }
+    public Exhibit() {
 
-    @Override
-    public void setObjectId(String objectId) {
-        put("objectId", objectId);
     }
 
     public String getName() {
@@ -76,22 +73,55 @@ public class Exhibit extends ParseObject {
         return distance;
     }
 
-    public Exhibit() {
-        super();
-        imageUrls = new ArrayList<String>();
+  /* Method to init test data */
+  public static Exhibit dummyObject(int distance) {
+    Exhibit exhibit = (Exhibit) ParseObject.create("Exhibit");
+    exhibit.setName("This is exhibit name");
+    exhibit.setDescriptionShort("Here is a short description of this exhibit, which will talk about it's creation, " +
+            "it's history and its' value proposition");
+    exhibit.setDescriptionLong("Here is a short description of this exhibit, which will talk about it's creation, " +
+                                    "it's history and its' value proposition");
+    ArrayList<String> images = new ArrayList<String>();
+    images.add("http://upload.wikimedia.org/wikipedia/commons/8/89/Field_Museum_of_Natural_History.jpg");
+    exhibit.setImageUrls(images);
+    return exhibit;
+  }
+
+  /* Make Exhibit implement Parcelable */
+
+  public Exhibit(Parcel in){
+    name = in.readString();
+    descriptionShort = in.readString();
+    descriptionLong = in.readString();
+    imageUrls = in.readArrayList(String.class.getClassLoader());
+    beaconId = in.readString();
+    ratingAverage = in.readLong();
+  }
+
+  @Override
+  public int describeContents(){
+    return 0;
+  }
+
+  @Override
+  public void writeToParcel(Parcel parcel, int flags) {
+    parcel.writeString(name);
+    parcel.writeString(descriptionShort);
+    parcel.writeString(descriptionLong);
+    parcel.writeStringList(imageUrls);
+    parcel.writeString(beaconId);
+    parcel.writeLong(ratingAverage);
+  }
+
+  public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+    public Exhibit createFromParcel(Parcel in) {
+      return new Exhibit(in);
     }
 
-    /* Method to init test data */
-    public static Exhibit dummyObject(int distance) {
-        Exhibit exhibit = new Exhibit();
-        exhibit.name = "Exhibit name";
-        exhibit.descriptionShort = "Here is a short description of this exhibit, which will talk about it's creation, " +
-                "it's history and its' value proposition";
-        exhibit.imageUrls.add("http://upload.wikimedia.org/wikipedia/commons/8/89/Field_Museum_of_Natural_History.jpg");
-        exhibit.distance = distance;
-        return exhibit;
+    public Exhibit[] newArray(int size) {
+      return new Exhibit[size];
     }
-
+  };
 }
 
 

@@ -10,25 +10,27 @@ import android.view.ViewGroup;
 
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.adapters.ImageSlideAdapter;
+import com.codepath.columbus.columbus.models.Exhibit;
 import com.codepath.columbus.columbus.utils.CirclePageIndicator;
 import com.codepath.columbus.columbus.utils.PageIndicator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  *
  */
-public class ExhibitHeaderFragment extends Fragment {
+public class ExhibitHeaderFragment extends ExhibitFragment {
 
   // UI References
   private ViewPager viewPager;
-  PageIndicator pageIndicator;
+  private PageIndicator pageIndicator;
 
-  List<String> images;
-  FragmentActivity activity;
-
+  public static ExhibitHeaderFragment newInstance(Exhibit exhibit) {
+    ExhibitHeaderFragment fragment = new ExhibitHeaderFragment();
+    fragment.init(exhibit);
+    return fragment;
+  }
 
   public ExhibitHeaderFragment() {
     // Required empty public constructor
@@ -37,30 +39,27 @@ public class ExhibitHeaderFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    activity = getActivity();
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-
-    images = new ArrayList<String>();
-    images.add("http://upload.wikimedia.org/wikipedia/commons/8/89/Field_Museum_of_Natural_History.jpg");
-    images.add("http://upload.wikimedia.org/wikipedia/commons/8/89/Field_Museum_of_Natural_History.jpg");
-    images.add("http://upload.wikimedia.org/wikipedia/commons/8/89/Field_Museum_of_Natural_History.jpg");
-
     View view = inflater.inflate(R.layout.fragment_exhibit_header, container, false);
-    viewPager = (ViewPager) view.findViewById(R.id.view_pager);
-    viewPager.setAdapter(new ImageSlideAdapter(activity, images));
-
-    pageIndicator = (CirclePageIndicator) view.findViewById(R.id.indicator);
-    pageIndicator.setViewPager(viewPager, 0);
-
+    setImageCarousel(view);
     return view;
   }
 
-  @Override
-  public void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
+  public void setImageCarousel(View view) {
+    List<String> images = exhibit.getImageUrls();
+
+    if (images != null && images.size() > 0) {
+      viewPager = (ViewPager) view.findViewById(R.id.view_pager);
+      viewPager.setAdapter(new ImageSlideAdapter(activity, images));
+    }
+
+    if (images != null && images.size() > 1) {
+      pageIndicator = (CirclePageIndicator) view.findViewById(R.id.indicator);
+      pageIndicator.setViewPager(viewPager, 0);
+    }
   }
 }
