@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.StrictMode;
 
 import com.codepath.columbus.columbus.models.Comment;
+import com.codepath.columbus.columbus.models.Exhibit;
 import com.codepath.columbus.columbus.models.Museum;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -62,7 +63,8 @@ public class ColumbusApplication extends Application{
   public void setupParse(){
     // Register parse models
     ParseObject.registerSubclass(Museum.class);
-    ParseObject.registerSubclass(Comment.class);
+      ParseObject.registerSubclass(Exhibit.class);
+      ParseObject.registerSubclass(Comment.class);
 
     // initialize parse with columbus application id/client_key
     Parse.initialize(this,"OAQsicQdL1q6JImFqg0bwAO5fxCzRYYFTXrzF1ih","PqgCWGd36DNxEzQmazyBManGsJZs4RPyKHn2QUd2");

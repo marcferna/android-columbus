@@ -1,31 +1,75 @@
 package com.codepath.columbus.columbus.models;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Comparator;
 
-public class Exhibit extends Object {
+@ParseClassName("Exhibit")
+public class Exhibit extends ParseObject {
 
-    private String exhibitId;
+    private String objectId;
     private String name;
-    private String shortDescription;
+    private String descriptionLong;
+    private String descriptionShort;
     private ArrayList<String> imageUrls;
+    private String beaconId;
     private int distance;
 
-    public String getExhibitId() {
-        return exhibitId;
+    @Override
+    public String getObjectId() {
+        return getString("objectId");
+    }
+
+    @Override
+    public void setObjectId(String objectId) {
+        put("objectId", objectId);
     }
 
     public String getName() {
-        return name;
+        return getString("name");
     }
 
-    public String getShortDescription() {
-        return shortDescription;
+    public void setName(String name) {
+        put("name", name);
+    }
+
+    public String getDescriptionLong() {
+        return getString("descriptionLong");
+    }
+
+    public void setDescriptionLong(String descriptionLong) {
+        put("descriptionLong", descriptionLong);
+    }
+
+    public String getDescriptionShort() {
+        return getString("descriptionShort");
+    }
+
+    public void setDescriptionShort(String descriptionShort) {
+        put("descriptionShort", descriptionShort);
     }
 
     public List<String> getImageUrls() {
-        return imageUrls;
+        return getList("imageUrls");
+    }
+
+    public void setImageUrls(ArrayList<String> imageUrls) {
+        put("imageUrls", imageUrls);
+    }
+
+    public String getBeaconId() {
+        return getString("beaconId");
+    }
+
+    public void setBeaconId(String beaconId) {
+        put("beaconId", beaconId);
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
     }
 
     public int getDistance() {
@@ -40,8 +84,8 @@ public class Exhibit extends Object {
     /* Method to init test data */
     public static Exhibit dummyObject(int distance) {
         Exhibit exhibit = new Exhibit();
-        exhibit.name = "This is exhibit name";
-        exhibit.shortDescription = "Here is a short description of this exhibit, which will talk about it's creation, " +
+        exhibit.name = "Exhibit name";
+        exhibit.descriptionShort = "Here is a short description of this exhibit, which will talk about it's creation, " +
                 "it's history and its' value proposition";
         exhibit.imageUrls.add("http://upload.wikimedia.org/wikipedia/commons/8/89/Field_Museum_of_Natural_History.jpg");
         exhibit.distance = distance;
