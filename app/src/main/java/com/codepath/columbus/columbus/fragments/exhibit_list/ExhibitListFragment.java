@@ -15,6 +15,7 @@ import com.codepath.columbus.columbus.models.Exhibit;
 import com.codepath.columbus.columbus.models.Museum;
 import com.codepath.columbus.columbus.utils.ExhibitDistanceComparator;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
@@ -28,12 +29,14 @@ public class ExhibitListFragment extends Fragment {
     private StickyListHeadersListView lvExhibitList;
     private ArrayList<Exhibit> exhibits;
     private ArrayAdapter<Exhibit> aExhibits;
+    private String museumId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         exhibits = new ArrayList<Exhibit>();
         aExhibits = new ExhibitListAdapter(getActivity(), exhibits);
+        museumId = getArguments().getString("museumId");
     }
 
     @Override
@@ -46,28 +49,43 @@ public class ExhibitListFragment extends Fragment {
 
         //addDummyData();
 
-        // Get first museum temporarily until we add onclickhandler to MuseumActivity
-        ParseQuery.getQuery(Museum.class).findInBackground(new FindCallback<Museum>() {
+        // Fetch museum object, then fetch the corresponding exhibits
+        Log.i("INFO", "query for museum id=" + museumId);
+        ParseQuery<Museum> query = ParseQuery.getQuery(Museum.class);
+        query.whereEqualTo("objectId", museumId);
+        query.getFirstInBackground(new GetCallback<Museum>() {
             @Override
-            public void done(List<Museum> museums, ParseException e) {
-                Museum firstMuseum = museums.get(0);
-                Log.i("DEBUG", "First museum=" + firstMuseum.get("name"));
-                ParseQuery.getQuery(Exhibit.class).whereEqualTo("museum", firstMuseum).findInBackground(new FindCallback<Exhibit>() {
-                    @Override
-                    public void done(List<Exhibit> exhibits1, ParseException e) {
-                        // clear old data
-                        Log.i("DEBUG", "Found " + exhibits1.size() + " exhibits");
-                        aExhibits.clear();
-                        aExhibits.addAll(exhibits1);
-                    }
-                });
+            public void done(Museum result, ParseException e) {
+                if (e == null) {
+                    ParseQuery.getQuery(Exhibit.class)
+                            .whereEqualTo("museum", result)
+                            .findInBackground(new FindCallback<Exhibit>() {
+                                @Override
+                                public void done(List<Exhibit> exhibits1, ParseException e) {
+                                    // clear old data
+                                    Log.i("INFO", "Found " + exhibits1.size() + " exhibits");
+                                    aExhibits.clear();
+                                    aExhibits.addAll(exhibits1);
+                                }
+                            });
+                } else {
+                    e.printStackTrace();
+                }
             }
         });
-
 
         Collections.sort(exhibits, new ExhibitDistanceComparator());
 
         return v;
+    }
+
+
+    public static ExhibitListFragment newInstance(String museumId) {
+        ExhibitListFragment fragmentExhibit = new ExhibitListFragment();
+        Bundle args = new Bundle();
+        args.putString("museumId", museumId);
+        fragmentExhibit.setArguments(args);
+        return fragmentExhibit;
     }
 
 
