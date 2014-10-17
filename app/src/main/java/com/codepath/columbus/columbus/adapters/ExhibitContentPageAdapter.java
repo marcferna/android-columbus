@@ -6,47 +6,34 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.codepath.columbus.columbus.fragments.exhibit.ExhibitCommentsFragment;
 import com.codepath.columbus.columbus.fragments.exhibit.ExhibitDescriptionFragment;
+import com.codepath.columbus.columbus.fragments.exhibit.ExhibitFragment;
 import com.codepath.columbus.columbus.models.Exhibit;
+
+import java.util.List;
 
 /**
  * Created by marc on 10/12/14.
  */
 public class ExhibitContentPageAdapter extends FragmentPagerAdapter {
 
-  private static int NUM_ITEMS = 2;
+  private List<ExhibitFragment> contentFragments;
 
-  // Fragments
-  private ExhibitDescriptionFragment descriptionFragment;
-  private ExhibitCommentsFragment commentsFragment;
-
-  private Exhibit exhibit;
-
-  public ExhibitContentPageAdapter(FragmentManager fm, Exhibit exhibit) {
+  public ExhibitContentPageAdapter(FragmentManager fm, List<ExhibitFragment> contentFragments) {
     super(fm);
-    this.exhibit = exhibit;
+    this.contentFragments = contentFragments;
   }
 
   @Override
   public Fragment getItem(int i) {
-    switch(i){
-      case 0:
-        if (descriptionFragment == null){
-          descriptionFragment = ExhibitDescriptionFragment.newInstance(exhibit);
-        }
-        return descriptionFragment;
-      case 1:
-        if (commentsFragment == null){
-          commentsFragment = ExhibitCommentsFragment.newInstance(exhibit);
-        }
-        return commentsFragment;
-      default:
-        return null;
+    if (i < contentFragments.size()) {
+      return contentFragments.get(i);
     }
+    return null;
   }
 
   @Override
   public int getCount() {
-    return NUM_ITEMS;
+    return contentFragments.size();
   }
 
   @Override

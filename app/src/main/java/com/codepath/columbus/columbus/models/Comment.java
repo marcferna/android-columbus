@@ -1,7 +1,11 @@
 package com.codepath.columbus.columbus.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseRelation;
 
 import java.util.Date;
 
@@ -20,6 +24,8 @@ public class Comment extends ParseObject {
   private float rating;
 
   private Date createdAt;
+
+  private Exhibit exhibit;
 
   public Comment() {
 
@@ -61,7 +67,11 @@ public class Comment extends ParseObject {
     return getDate("imageUrl");
   }
 
-  public void setCreatedAt(Date createdAt) {
-    put("createdAt", createdAt);
+  public ParseRelation<Exhibit> getExhibit() {
+    return getRelation("exhibit");
+  }
+
+  public void setExhibit(Exhibit exhibit) {
+    put("exhibit", exhibit);
   }
 }

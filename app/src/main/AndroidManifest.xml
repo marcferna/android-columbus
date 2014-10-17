@@ -3,9 +3,10 @@
     package="com.codepath.columbus.columbus" >
 
     <uses-permission android:name="com.codepath.columbus.columbus.permission.MAPS_RECEIVE" />
+
     <permission android:name="com.codepath.columbus.columbus.permission.MAPS_RECEIVE" />
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
@@ -14,24 +15,34 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
-    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <application
-        android:name=".ColumbusApplication"
+        android:name="com.codepath.columbus.columbus.ColumbusApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/MyCustomTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="com.codepath.columbus.columbus.MainActivity"
             android:label="@string/app_name" >
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
         </activity>
         <activity
-            android:name=".activities.ExhibitActivity"
+            android:name="com.codepath.columbus.columbus.activities.ExhibitActivity"
             android:label="@string/title_activity_exhibit" >
         </activity>
         <activity
-            android:name=".activities.ExhibitListActivity"
+            android:name="com.codepath.columbus.columbus.activities.ExhibitListActivity"
             android:label="@string/title_activity_exhibit_list" >
         </activity>
         <activity
@@ -41,12 +52,11 @@
         <activity
             android:name=".activities.MuseumActivity"
             android:label="@string/title_activity_museum" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <meta-data
@@ -54,7 +64,12 @@
             android:value="AIzaSyAe7RaLA6qp-nDLVyJuNV6XULDUD7kEjWk" />
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name="com.codepath.columbus.columbus.activities.ExhibitCreateCommentActivity"
+            android:label="@string/title_activity_exhibit_create_comment" >
+        </activity>
     </application>
 
 </manifest>

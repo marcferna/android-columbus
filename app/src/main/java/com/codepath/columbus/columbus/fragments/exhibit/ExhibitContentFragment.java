@@ -9,8 +9,12 @@ import android.view.ViewGroup;
 
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.adapters.ExhibitContentPageAdapter;
+import com.codepath.columbus.columbus.models.Comment;
 import com.codepath.columbus.columbus.models.Exhibit;
 import com.viewpagerindicator.TabPageIndicator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +24,9 @@ public class ExhibitContentFragment extends ExhibitFragment {
 
   // Adapter
   private ExhibitContentPageAdapter pagerAdapter;
+
+  private ExhibitDescriptionFragment descriptionFragment;
+  private ExhibitCommentsFragment commentsFragment;
 
   // UI Elements
   private ViewPager viewPager;
@@ -37,6 +44,8 @@ public class ExhibitContentFragment extends ExhibitFragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    descriptionFragment = ExhibitDescriptionFragment.newInstance(exhibit);
+    commentsFragment = ExhibitCommentsFragment.newInstance(exhibit);
   }
 
   @Override
@@ -51,10 +60,17 @@ public class ExhibitContentFragment extends ExhibitFragment {
 
   public void setViewPager(View view) {
     viewPager = (ViewPager) view.findViewById(R.id.vpPager);
-    pagerAdapter = new ExhibitContentPageAdapter(activity.getSupportFragmentManager(), exhibit);
+    List<ExhibitFragment> fragmentsList = new ArrayList<ExhibitFragment>();
+    fragmentsList.add(descriptionFragment);
+    fragmentsList.add(commentsFragment);
+    pagerAdapter = new ExhibitContentPageAdapter(activity.getSupportFragmentManager(), fragmentsList);
     viewPager.setAdapter(pagerAdapter);
 
     TabPageIndicator titleIndicator = (TabPageIndicator) view.findViewById(R.id.titles);
     titleIndicator.setViewPager(viewPager);
+  }
+
+  public void addComment(Comment comment) {
+    commentsFragment.addComment(comment);
   }
 }

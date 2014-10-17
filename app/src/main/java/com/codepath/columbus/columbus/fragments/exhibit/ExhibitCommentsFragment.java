@@ -78,4 +78,8 @@ public class ExhibitCommentsFragment extends ExhibitFragment {
       }
     });
   }
+
+  public void addComment(Comment comment) {
+    commentAdapter.add(comment);
+  }
 }
