@@ -1,13 +1,12 @@
 package com.codepath.columbus.columbus.activities;
 
-import android.app.ActionBar;
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.adapters.MuseumPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
@@ -16,6 +15,25 @@ import com.viewpagerindicator.TabPageIndicator;
 public class MuseumActivity extends SherlockFragmentActivity {
 
     MuseumPagerAdapter pagerAdapter;
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getSupportMenuInflater().inflate(R.menu.museum, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.action_login:
+                Intent i = new Intent(this,LoginActivity.class);
+                startActivity(i);
+                return true;
+            default:
+                return true;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
