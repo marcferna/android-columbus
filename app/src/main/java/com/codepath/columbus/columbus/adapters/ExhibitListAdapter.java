@@ -1,7 +1,8 @@
 package com.codepath.columbus.columbus.adapters;
 
+import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +11,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.columbus.columbus.R;
+import com.codepath.columbus.columbus.activities.ExhibitActivity;
 import com.codepath.columbus.columbus.models.Exhibit;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyListHeadersAdapter {
     private ArrayList<Exhibit> exhibitsList;
+    private Activity activity;
 
     private static class ViewHolder {
         TextView tvExhibitTitle;
@@ -31,11 +33,12 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyL
     public ExhibitListAdapter(Context context, ArrayList<Exhibit> exhibits) {
         super(context, R.layout.item_exhibit_list, exhibits);
         exhibitsList = exhibits;
+        activity = (Activity)context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Exhibit exhibit = (Exhibit) getItem(position);
+        final Exhibit exhibit = (Exhibit) getItem(position);
         ViewHolder viewHolder;
 
         // Check if this is recycled view, if not, create / inflate it.
@@ -55,6 +58,16 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyL
 
         // Clear recycled view
         viewHolder.ivExhibitImage.setImageResource(0);
+
+        // Setup listeners
+        viewHolder.tvExhibitShortDesc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), ExhibitActivity.class);
+                i.putExtra("exhibitId", exhibit.getObjectId());
+                activity.startActivity(i);
+            }
+        });
 
         // Populate resources
         ImageLoader imageLoader = ImageLoader.getInstance();

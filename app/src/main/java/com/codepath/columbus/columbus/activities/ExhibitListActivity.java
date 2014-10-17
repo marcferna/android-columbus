@@ -4,11 +4,14 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.codepath.columbus.columbus.R;
+import com.codepath.columbus.columbus.fragments.exhibit.ExhibitHeaderFragment;
 import com.codepath.columbus.columbus.fragments.exhibit_list.ExhibitListFragment;
+import com.codepath.columbus.columbus.models.Museum;
 
 public class ExhibitListActivity extends FragmentActivity {
     private ExhibitListFragment exhibitListFragment;
@@ -17,7 +20,9 @@ public class ExhibitListActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exhibit_list);
-        exhibitListFragment = new ExhibitListFragment();
+        String museumId = getIntent().getStringExtra("museumId");
+        Log.i("INFO", "activity museum id=" + museumId);
+        exhibitListFragment = ExhibitListFragment.newInstance(museumId);
         loadFragment();
     }
 

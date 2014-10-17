@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.codepath.columbus.columbus.fragments.exhibit.ExhibitCommentsFragment;
 import com.codepath.columbus.columbus.fragments.exhibit.ExhibitDescriptionFragment;
+import com.codepath.columbus.columbus.models.Exhibit;
 
 /**
  * Created by marc on 10/12/14.
@@ -13,11 +14,16 @@ import com.codepath.columbus.columbus.fragments.exhibit.ExhibitDescriptionFragme
 public class ExhibitContentPageAdapter extends FragmentPagerAdapter {
 
   private static int NUM_ITEMS = 2;
-  public ExhibitDescriptionFragment descriptionFragment;
-  public ExhibitCommentsFragment commentsFragment;
 
-  public ExhibitContentPageAdapter(FragmentManager fm) {
+  // Fragments
+  private ExhibitDescriptionFragment descriptionFragment;
+  private ExhibitCommentsFragment commentsFragment;
+
+  private Exhibit exhibit;
+
+  public ExhibitContentPageAdapter(FragmentManager fm, Exhibit exhibit) {
     super(fm);
+    this.exhibit = exhibit;
   }
 
   @Override
@@ -25,12 +31,12 @@ public class ExhibitContentPageAdapter extends FragmentPagerAdapter {
     switch(i){
       case 0:
         if (descriptionFragment == null){
-          descriptionFragment = new ExhibitDescriptionFragment();
+          descriptionFragment = ExhibitDescriptionFragment.newInstance(exhibit);
         }
         return descriptionFragment;
       case 1:
         if (commentsFragment == null){
-          commentsFragment = new ExhibitCommentsFragment();
+          commentsFragment = ExhibitCommentsFragment.newInstance(exhibit);
         }
         return commentsFragment;
       default:

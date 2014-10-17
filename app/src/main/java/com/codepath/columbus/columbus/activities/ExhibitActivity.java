@@ -5,52 +5,54 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.fragments.exhibit.ExhibitContentFragment;
 import com.codepath.columbus.columbus.fragments.exhibit.ExhibitHeaderFragment;
+import com.codepath.columbus.columbus.models.Exhibit;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+
 
 public class ExhibitActivity extends SherlockFragmentActivity {
 
+  // Fragments
   private ExhibitHeaderFragment headerFragment;
   private ExhibitContentFragment contentFragment;
+
+  private String exhibitId;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_exhibit);
+    exhibitId = getIntent().getStringExtra("exhibitId");
+    fetchExhibit();
+  }
 
-    headerFragment = new ExhibitHeaderFragment();
-    contentFragment = new ExhibitContentFragment();
+  public void fetchExhibit() {
+    ParseQuery<Exhibit> query = ParseQuery.getQuery(Exhibit.class);
+    query.whereEqualTo("objectId", exhibitId);
+    query.getFirstInBackground(new GetCallback<Exhibit>() {
+      @Override
+      public void done(Exhibit result, ParseException e) {
+        if (e == null) {
+          setFragments(result);
+        } else {
+          e.printStackTrace();
+        }
+      }
+    });
+  }
+
+  public void setFragments(Exhibit exhibit) {
+    headerFragment = ExhibitHeaderFragment.newInstance(exhibit);
+    contentFragment = ExhibitContentFragment.newInstance(exhibit);
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     fragmentTransaction.add(R.id.headerLayout, headerFragment);
     fragmentTransaction.add(R.id.contentLayout, contentFragment);
     fragmentTransaction.commit();
-
-  }
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
-//    getMenuInflater().inflate(R.menu.exhibit, menu);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
-    int id = item.getItemId();
-
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
-    }
-
-    return super.onOptionsItemSelected(item);
   }
 }
