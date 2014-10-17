@@ -26,7 +26,7 @@ public class ExhibitActivity extends SherlockFragmentActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_exhibit);
-    exhibitId = "mGsoKsYPuF";
+    exhibitId = getIntent().getStringExtra("exhibitId");
     fetchExhibit();
   }
 
