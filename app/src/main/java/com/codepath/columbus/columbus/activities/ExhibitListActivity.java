@@ -24,41 +24,17 @@ import java.util.List;
 
 public class ExhibitListActivity extends FragmentActivity {
     private ExhibitListFragment exhibitListFragment;
-    private BeaconManager beaconManager;
-    // TODO: set proximityUUID to be museum's UUID here
-    private static Region beaconsRegionToScan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exhibit_list);
         String museumId = getIntent().getStringExtra("museumId");
-        museumId = "zguAHcyS7S";
+        //museumId = "zguAHcyS7S";
         Log.i("INFO", "activity museum id=" + museumId);
-        beaconsRegionToScan = new Region("regionId", null /*UUID*/, null /*major*/, null /*minor*/);
 
         exhibitListFragment = ExhibitListFragment.newInstance(museumId);
         loadFragment();
-
-        // Configure BeaconManager.
-        // Start ranging for museum beacons in onStart(), set callback listener for discovered beacons in onCreate()
-        beaconManager = new BeaconManager(this);
-        beaconManager.setRangingListener(new BeaconManager.RangingListener() {
-            // Results are not delivered on UI thread.
-            @Override
-            public void onBeaconsDiscovered(Region region, final List<Beacon> beacons) {
-                Log.i("INFO", "Ranged beacons: " + beacons);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Note that beacons reported here are already sorted by estimated
-                        // distance between device and beacon.
-                        getActionBar().setSubtitle("Found beacons: " + beacons.size());
-                        // TODO: update distance in exhibits
-                    }
-                });
-            }
-        });
     }
 
     private void loadFragment() {
@@ -68,54 +44,6 @@ public class ExhibitListActivity extends FragmentActivity {
         ft.commit();
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        // Check if device supports Bluetooth Low Energy.
-        if (!beaconManager.hasBluetooth()) {
-            Toast.makeText(this, "Device does not have Bluetooth Low Energy", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        // TODO: allow enabling bluetooth using intents
-        if (!beaconManager.isBluetoothEnabled()) {
-            Toast.makeText(this, "Please enable bluetooth to see nearest exhibit data", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        getActionBar().setSubtitle("Scanning...");
-        // reset beacons list
-        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-            @Override public void onServiceReady() {
-                try {
-                    Toast.makeText(ExhibitListActivity.this, "Starting ranging", Toast.LENGTH_SHORT).show();
-                    beaconManager.startRanging(beaconsRegionToScan);
-                } catch (RemoteException e) {
-                    Toast.makeText(ExhibitListActivity.this, "Cannot start ranging", Toast.LENGTH_LONG).show();
-                    Log.e("ERROR", "Cannot start ranging", e);
-                }
-            }
-        });
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        try {
-            Toast.makeText(this, "Stopping ranging", Toast.LENGTH_SHORT).show();
-            beaconManager.stopRanging(beaconsRegionToScan);
-        } catch (RemoteException e) {
-            Log.e("ERROR", "Cannot stop but it does not matter now", e);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        beaconManager.disconnect();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
