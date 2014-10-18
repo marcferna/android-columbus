@@ -15,10 +15,18 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
+    <!-- Needed permissions in order to scan for beacons. -->
+     <uses-permission android:name="android.permission.BLUETOOTH"/>
+     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
 
+
+     <!-- Declaration that this app is usable on phones with Bluetooth Low Energy. -->
+     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
+ 
     <application
         android:name="com.codepath.columbus.columbus.ColumbusApplication"
         android:allowBackup="true"
@@ -44,6 +52,11 @@
         <activity
             android:name="com.codepath.columbus.columbus.activities.ExhibitListActivity"
             android:label="@string/title_activity_exhibit_list" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.LoginActivity"
@@ -52,11 +65,6 @@
         <activity
             android:name=".activities.MuseumActivity"
             android:label="@string/title_activity_museum" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data
@@ -70,6 +78,12 @@
             android:name="com.codepath.columbus.columbus.activities.ExhibitCreateCommentActivity"
             android:label="@string/title_activity_exhibit_create_comment" >
         </activity>
+
+         <!-- Estimote service responsible for scanning beacons. -->
+         <service android:name="com.estimote.sdk.service.BeaconService"
+             android:process=":remote"
+             android:exported="false"/>
+
     </application>
 
 </manifest>
