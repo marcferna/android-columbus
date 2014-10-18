@@ -3,6 +3,7 @@ package com.codepath.columbus.columbus.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +79,7 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyL
             viewHolder.tvDistance.setVisibility(View.GONE);
         } else {
             viewHolder.tvDistance.setVisibility(View.VISIBLE);
-            viewHolder.tvDistance.setText(Integer.toString(exhibit.getDistance()) + " ft");
+            viewHolder.tvDistance.setText(Double.toString(exhibit.getDistance()) + " m");
         }
 
         return convertView;
@@ -116,6 +117,7 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyL
     public long getHeaderId(int position) {
         Exhibit item = exhibitsList.get(position);
         if(item.getDistance() > 0) {
+            Log.i("INFO", "exhibit " + item.getName() + " distance = " + item.getDistance());
             return 1;
         }
         return 0;

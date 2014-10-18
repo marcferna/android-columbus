@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.codepath.columbus.columbus.R;
-import com.codepath.columbus.columbus.activities.ExhibitListActivity;
 import com.codepath.columbus.columbus.adapters.ExhibitListAdapter;
 import com.codepath.columbus.columbus.models.Exhibit;
 import com.codepath.columbus.columbus.models.Museum;
@@ -21,6 +20,7 @@ import com.codepath.columbus.columbus.utils.ExhibitDistanceComparator;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
+import com.estimote.sdk.Utils;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -37,6 +37,7 @@ public class ExhibitListFragment extends Fragment {
     private ArrayList<Exhibit> exhibits;
     private ArrayAdapter<Exhibit> aExhibits;
     private String museumId;
+    private String museumUUID;
     private BeaconManager beaconManager;
     private static Region beaconsRegionToScan;
     private Context context;
@@ -48,9 +49,9 @@ public class ExhibitListFragment extends Fragment {
         exhibits = new ArrayList<Exhibit>();
         aExhibits = new ExhibitListAdapter(context, exhibits);
         museumId = getArguments().getString("museumId");
+        museumUUID = getArguments().getString("museumUUID");
 
-        // TODO: set proximityUUID to be museum's UUID here
-        beaconsRegionToScan = new Region("regionId", null /*UUID*/, null /*major*/, null /*minor*/);
+        beaconsRegionToScan = new Region("regionId", museumUUID /*UUID*/, null /*major*/, null /*minor*/);
         // Configure BeaconManager.
         // Start ranging for museum beacons in onStart(), set callback listener for discovered beacons in onCreate()
         beaconManager = new BeaconManager(context);
@@ -60,18 +61,51 @@ public class ExhibitListFragment extends Fragment {
             public void onBeaconsDiscovered(Region region, final List<Beacon> beacons) {
                 Log.i("INFO", "Ranged beacons: " + beacons);
                 // TODO: update distance in exhibits
-
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         // Note that beacons reported here are already sorted by estimated
                         // distance between device and beacon.
                         getActivity().getActionBar().setSubtitle("Found beacons: " + beacons.size());
+                        for (Beacon rangedBeacon : beacons) {
+                            updateDistance(rangedBeacon);
+                        }
                     }
                 });
             }
         });
 
+    }
+
+
+    private void updateDistance(Beacon beacon) {
+        Log.i("INFO", "Found beacon uuid=" + beacon.getProximityUUID());
+        Log.i("INFO", "num exhibits = " + exhibits.size());
+
+        // find the exhibit this beacon matches
+        String beaconID = beacon.getProximityUUID() + ":" + beacon.getMajor() + ":" + beacon.getMinor();
+        Exhibit exhibit = findExhibitByBeaconId(beaconID);
+        if(exhibit != null) {
+            // update distance
+            // TODO: is this the right function to compute distance?
+            double distance = Utils.computeAccuracy(beacon);
+            Log.i("INFO", "distance is " + distance + "; difference=" + Math.abs(exhibit.getDistance() - distance));
+            if(Math.abs(exhibit.getDistance() - distance) > 0.1) {
+                exhibit.setDistance(distance);
+                aExhibits.notifyDataSetChanged();
+            }
+        }
+    }
+
+
+    private Exhibit findExhibitByBeaconId(String beaconID) {
+        for(Exhibit exhibit: exhibits) {
+            Log.i("INFO", "comparing with " + exhibit.getBeaconId());
+            if(exhibit.getBeaconId().equalsIgnoreCase(beaconID)) {
+                return exhibit;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -115,10 +149,11 @@ public class ExhibitListFragment extends Fragment {
     }
 
 
-    public static ExhibitListFragment newInstance(String museumId) {
+    public static ExhibitListFragment newInstance(String museumId, String museumUUID) {
         ExhibitListFragment fragmentExhibit = new ExhibitListFragment();
         Bundle args = new Bundle();
         args.putString("museumId", museumId);
+        args.putString("museumUUID", museumUUID);
         fragmentExhibit.setArguments(args);
         return fragmentExhibit;
     }

@@ -30,10 +30,12 @@ public class ExhibitListActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exhibit_list);
         String museumId = getIntent().getStringExtra("museumId");
+        String museumUUID = getIntent().getStringExtra("museumUUID");
         //museumId = "zguAHcyS7S";
-        Log.i("INFO", "activity museum id=" + museumId);
+        //museumUUID = "8492e75f-4fd6-469d-b132-043fe94921d8";
+        Log.i("INFO", "activity museum id=" + museumId + "; uuid=" + museumUUID);
 
-        exhibitListFragment = ExhibitListFragment.newInstance(museumId);
+        exhibitListFragment = ExhibitListFragment.newInstance(museumId, museumUUID);
         loadFragment();
     }
 

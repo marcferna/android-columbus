@@ -19,6 +19,8 @@ public class Museum extends ParseObject{
 
     private String address;
 
+    private String beaconUUID;
+
     public String getName() {
         return getString("name");
     }
@@ -65,5 +67,13 @@ public class Museum extends ParseObject{
 
     public void setAddress(String address) {
         put("address",address);
+    }
+
+    public String getBeaconUUID() {
+        return getString("beaconUUID");
+    }
+
+    public void setBeaconUUID(String address) {
+        put("beaconUUID", beaconUUID);
     }
 }

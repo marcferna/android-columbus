@@ -89,6 +89,7 @@ public class MuseumMapFragment extends Fragment implements
                         public boolean onMarkerClick(Marker marker) {
                             Intent i = new Intent(getActivity(), ExhibitListActivity.class);
                             i.putExtra("museumId",museum.getObjectId());
+                            i.putExtra("museumUUID",museum.getBeaconUUID());
                             getActivity().startActivity(i);
                             return true;
                         }

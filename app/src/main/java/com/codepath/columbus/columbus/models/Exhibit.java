@@ -8,7 +8,6 @@ import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Comparator;
 
 @ParseClassName("Exhibit")
 public class Exhibit extends ParseObject implements Parcelable {
@@ -19,7 +18,7 @@ public class Exhibit extends ParseObject implements Parcelable {
     private ArrayList<String> imageUrls;
     private String beaconId;
     private long ratingAverage;
-    private int distance;
+    private double distance;
 
     public Exhibit() {
 
@@ -65,11 +64,11 @@ public class Exhibit extends ParseObject implements Parcelable {
         put("beaconId", beaconId);
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 
-    public int getDistance() {
+    public double getDistance() {
         return distance;
     }
 
