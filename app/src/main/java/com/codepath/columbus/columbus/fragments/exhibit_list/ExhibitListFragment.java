@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.codepath.columbus.columbus.R;
@@ -17,6 +18,8 @@ import com.codepath.columbus.columbus.adapters.ExhibitListAdapter;
 import com.codepath.columbus.columbus.models.Exhibit;
 import com.codepath.columbus.columbus.models.Museum;
 import com.codepath.columbus.columbus.utils.ExhibitDistanceComparator;
+import com.codepath.columbus.columbus.utils.PtrStickyListHeadersListView;
+import com.codepath.columbus.columbus.utils.StickyListViewDelegate;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
@@ -31,9 +34,12 @@ import java.util.Collections;
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
 public class ExhibitListFragment extends Fragment {
-    private StickyListHeadersListView lvExhibitList;
+    private PtrStickyListHeadersListView lvExhibitList;
     private ArrayList<Exhibit> exhibits;
     private ArrayAdapter<Exhibit> aExhibits;
     private String museumId;
@@ -41,6 +47,9 @@ public class ExhibitListFragment extends Fragment {
     private BeaconManager beaconManager;
     private static Region beaconsRegionToScan;
     private Context context;
+    private PullToRefreshLayout mPullToRefreshLayout;
+    private static boolean refresh;
+    private ListView lvExhibitsList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +59,7 @@ public class ExhibitListFragment extends Fragment {
         aExhibits = new ExhibitListAdapter(context, exhibits);
         museumId = getArguments().getString("museumId");
         museumUUID = getArguments().getString("museumUUID");
+        refresh = true;
 
         beaconsRegionToScan = new Region("regionId", museumUUID /*UUID*/, null /*major*/, null /*minor*/);
         // Configure BeaconManager.
@@ -59,8 +69,11 @@ public class ExhibitListFragment extends Fragment {
             // Results are not delivered on UI thread.
             @Override
             public void onBeaconsDiscovered(Region region, final List<Beacon> beacons) {
+                if(!refresh) {
+                    //Log.i("INFO", "no refresh yet");
+                    return;
+                }
                 Log.i("INFO", "Ranged beacons: " + beacons);
-                // TODO: update distance in exhibits
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -72,6 +85,7 @@ public class ExhibitListFragment extends Fragment {
                         }
                     }
                 });
+                refresh = false;
             }
         });
 
@@ -81,6 +95,8 @@ public class ExhibitListFragment extends Fragment {
     private void updateDistance(Beacon beacon) {
         Log.i("INFO", "Found beacon uuid=" + beacon.getProximityUUID());
         Log.i("INFO", "num exhibits = " + exhibits.size());
+
+        // XXX: reset distance to zero
 
         // find the exhibit this beacon matches
         String beaconID = beacon.getProximityUUID() + ":" + beacon.getMajor() + ":" + beacon.getMinor();
@@ -92,9 +108,9 @@ public class ExhibitListFragment extends Fragment {
             Log.i("INFO", "distance is " + distance + "; difference=" + Math.abs(exhibit.getDistance() - distance));
             if(Math.abs(exhibit.getDistance() - distance) > 0.1) {
                 exhibit.setDistance(distance);
-                aExhibits.notifyDataSetChanged();
             }
         }
+        aExhibits.notifyDataSetChanged();
     }
 
 
@@ -113,10 +129,27 @@ public class ExhibitListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_exhibit_list, container, false);
-        lvExhibitList = (StickyListHeadersListView) v.findViewById(R.id.lvExhibitList);
+        lvExhibitList = (PtrStickyListHeadersListView) v.findViewById(R.id.lvExhibitList);
         lvExhibitList.setAdapter((se.emilsjolander.stickylistheaders.StickyListHeadersAdapter) aExhibits);
 
         //addDummyData();
+        mPullToRefreshLayout = (PullToRefreshLayout)v.findViewById(R.id.layout_exhibit_list);
+
+        // Now setup the PullToRefreshLayout
+        //StickyListViewDelegate delegate = new StickyListViewDelegate();
+        ActionBarPullToRefresh.from(getActivity())
+                .allChildrenArePullable()
+                .useViewDelegate(PtrStickyListHeadersListView.class, lvExhibitList)
+                .listener(new OnRefreshListener() {
+                    @Override
+                    public void onRefreshStarted(View view) {
+                        // refresh the museum list
+                        Log.i("INFO", "called pull to refresh");
+                        refresh = true;
+                        mPullToRefreshLayout.setRefreshComplete();
+                    }
+                })
+                .setup(mPullToRefreshLayout);
 
         // Fetch museum object, then fetch the corresponding exhibits
         Log.i("INFO", "query for museum id=" + museumId);
@@ -133,6 +166,7 @@ public class ExhibitListFragment extends Fragment {
                                 public void done(List<Exhibit> exhibits1, ParseException e) {
                                     // clear old data
                                     Log.i("INFO", "Found " + exhibits1.size() + " exhibits");
+                                    refresh = true;
                                     aExhibits.clear();
                                     aExhibits.addAll(exhibits1);
                                 }
@@ -223,3 +257,5 @@ public class ExhibitListFragment extends Fragment {
         aExhibits.add(Exhibit.dummyObject(800));
     }
 }
+
+
