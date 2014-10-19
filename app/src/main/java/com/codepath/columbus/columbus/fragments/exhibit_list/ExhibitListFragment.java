@@ -19,7 +19,6 @@ import com.codepath.columbus.columbus.models.Exhibit;
 import com.codepath.columbus.columbus.models.Museum;
 import com.codepath.columbus.columbus.utils.ExhibitDistanceComparator;
 import com.codepath.columbus.columbus.utils.PtrStickyListHeadersListView;
-import com.codepath.columbus.columbus.utils.StickyListViewDelegate;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
@@ -136,7 +135,6 @@ public class ExhibitListFragment extends Fragment {
         mPullToRefreshLayout = (PullToRefreshLayout)v.findViewById(R.id.layout_exhibit_list);
 
         // Now setup the PullToRefreshLayout
-        //StickyListViewDelegate delegate = new StickyListViewDelegate();
         ActionBarPullToRefresh.from(getActivity())
                 .allChildrenArePullable()
                 .useViewDelegate(PtrStickyListHeadersListView.class, lvExhibitList)
