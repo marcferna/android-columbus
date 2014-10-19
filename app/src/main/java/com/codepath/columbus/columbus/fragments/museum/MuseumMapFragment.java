@@ -1,7 +1,6 @@
 package com.codepath.columbus.columbus.fragments.museum;
 
 
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -83,17 +82,16 @@ public class MuseumMapFragment extends Fragment implements
                             .title(museum.getName())
                             .icon(defaultMarker));
 
-                    // setting the listener on the Museum
-                    map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                        @Override
-                        public boolean onMarkerClick(Marker marker) {
-                            Intent i = new Intent(getActivity(), ExhibitListActivity.class);
-                            i.putExtra("museumId",museum.getObjectId());
-                            i.putExtra("museumUUID",museum.getBeaconUUID());
-                            getActivity().startActivity(i);
-                            return true;
-                        }
-                    });
+                    // setting the info window click listener on the Museum
+                       map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                           @Override
+                           public void onInfoWindowClick(Marker marker) {
+                               Intent i = new Intent(getActivity(), ExhibitListActivity.class);
+                               i.putExtra("museumId",museum.getObjectId());
+                               i.putExtra("museumUUID",museum.getBeaconUUID());
+                               getActivity().startActivity(i);
+                           }
+                       });
                 }
             }
         });
