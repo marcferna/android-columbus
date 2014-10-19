@@ -79,7 +79,8 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyL
             viewHolder.tvDistance.setVisibility(View.GONE);
         } else {
             viewHolder.tvDistance.setVisibility(View.VISIBLE);
-            viewHolder.tvDistance.setText(Double.toString(exhibit.getDistance()) + " m");
+            //viewHolder.tvDistance.setText(Double.toString(exhibit.getDistance()) + " m");
+            viewHolder.tvDistance.setText("In close proximity");
         }
 
         return convertView;
@@ -117,7 +118,7 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyL
     public long getHeaderId(int position) {
         Exhibit item = exhibitsList.get(position);
         if(item.getDistance() > 0) {
-            Log.i("INFO", "exhibit " + item.getName() + " distance = " + item.getDistance());
+            Log.d("DEBUG", "exhibit " + item.getName() + " distance = " + item.getDistance());
             return 1;
         }
         return 0;

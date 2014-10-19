@@ -48,7 +48,6 @@ public class ExhibitListFragment extends Fragment {
     private Context context;
     private PullToRefreshLayout mPullToRefreshLayout;
     private static boolean refresh;
-    private ListView lvExhibitsList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,55 +72,22 @@ public class ExhibitListFragment extends Fragment {
                     return;
                 }
                 Log.i("INFO", "Ranged beacons: " + beacons);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Note that beacons reported here are already sorted by estimated
-                        // distance between device and beacon.
-                        getActivity().getActionBar().setSubtitle("Found beacons: " + beacons.size());
-                        for (Beacon rangedBeacon : beacons) {
-                            updateDistance(rangedBeacon);
-                        }
-                    }
-                });
+                updateDistances(beacons);
                 refresh = false;
             }
         });
 
     }
 
-
-    private void updateDistance(Beacon beacon) {
-        Log.i("INFO", "Found beacon uuid=" + beacon.getProximityUUID());
-        Log.i("INFO", "num exhibits = " + exhibits.size());
-
-        // XXX: reset distance to zero
-
-        // find the exhibit this beacon matches
-        String beaconID = beacon.getProximityUUID() + ":" + beacon.getMajor() + ":" + beacon.getMinor();
-        Exhibit exhibit = findExhibitByBeaconId(beaconID);
-        if(exhibit != null) {
-            // update distance
-            // TODO: is this the right function to compute distance?
-            double distance = Utils.computeAccuracy(beacon);
-            Log.i("INFO", "distance is " + distance + "; difference=" + Math.abs(exhibit.getDistance() - distance));
-            if(Math.abs(exhibit.getDistance() - distance) > 0.1) {
-                exhibit.setDistance(distance);
-            }
-        }
-        aExhibits.notifyDataSetChanged();
+    public static ExhibitListFragment newInstance(String museumId, String museumUUID) {
+        ExhibitListFragment fragmentExhibit = new ExhibitListFragment();
+        Bundle args = new Bundle();
+        args.putString("museumId", museumId);
+        args.putString("museumUUID", museumUUID);
+        fragmentExhibit.setArguments(args);
+        return fragmentExhibit;
     }
 
-
-    private Exhibit findExhibitByBeaconId(String beaconID) {
-        for(Exhibit exhibit: exhibits) {
-            Log.i("INFO", "comparing with " + exhibit.getBeaconId());
-            if(exhibit.getBeaconId().equalsIgnoreCase(beaconID)) {
-                return exhibit;
-            }
-        }
-        return null;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -132,62 +98,13 @@ public class ExhibitListFragment extends Fragment {
         lvExhibitList.setAdapter((se.emilsjolander.stickylistheaders.StickyListHeadersAdapter) aExhibits);
 
         //addDummyData();
-        mPullToRefreshLayout = (PullToRefreshLayout)v.findViewById(R.id.layout_exhibit_list);
+        setupOnRefreshListener(v);
+        fetchExhibitsFromParse();
 
-        // Now setup the PullToRefreshLayout
-        ActionBarPullToRefresh.from(getActivity())
-                .allChildrenArePullable()
-                .useViewDelegate(PtrStickyListHeadersListView.class, lvExhibitList)
-                .listener(new OnRefreshListener() {
-                    @Override
-                    public void onRefreshStarted(View view) {
-                        // refresh the museum list
-                        Log.i("INFO", "called pull to refresh");
-                        refresh = true;
-                        mPullToRefreshLayout.setRefreshComplete();
-                    }
-                })
-                .setup(mPullToRefreshLayout);
-
-        // Fetch museum object, then fetch the corresponding exhibits
-        Log.i("INFO", "query for museum id=" + museumId);
-        ParseQuery<Museum> query = ParseQuery.getQuery(Museum.class);
-        query.whereEqualTo("objectId", museumId);
-        query.getFirstInBackground(new GetCallback<Museum>() {
-            @Override
-            public void done(Museum result, ParseException e) {
-                if (e == null) {
-                    ParseQuery.getQuery(Exhibit.class)
-                            .whereEqualTo("museum", result)
-                            .findInBackground(new FindCallback<Exhibit>() {
-                                @Override
-                                public void done(List<Exhibit> exhibits1, ParseException e) {
-                                    // clear old data
-                                    Log.i("INFO", "Found " + exhibits1.size() + " exhibits");
-                                    refresh = true;
-                                    aExhibits.clear();
-                                    aExhibits.addAll(exhibits1);
-                                }
-                            });
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
-
+        // sort exhibits based on distance
         Collections.sort(exhibits, new ExhibitDistanceComparator());
 
         return v;
-    }
-
-
-    public static ExhibitListFragment newInstance(String museumId, String museumUUID) {
-        ExhibitListFragment fragmentExhibit = new ExhibitListFragment();
-        Bundle args = new Bundle();
-        args.putString("museumId", museumId);
-        args.putString("museumUUID", museumUUID);
-        fragmentExhibit.setArguments(args);
-        return fragmentExhibit;
     }
 
     @Override
@@ -239,6 +156,99 @@ public class ExhibitListFragment extends Fragment {
         beaconManager.disconnect();
     }
 
+    private void setupOnRefreshListener(View v) {
+        mPullToRefreshLayout = (PullToRefreshLayout)v.findViewById(R.id.layout_exhibit_list);
+
+        // Now setup the PullToRefreshLayout
+        ActionBarPullToRefresh.from(getActivity())
+                .allChildrenArePullable()
+                .useViewDelegate(PtrStickyListHeadersListView.class, lvExhibitList)
+                .listener(new OnRefreshListener() {
+                    @Override
+                    public void onRefreshStarted(View view) {
+                        // refresh the museum list
+                        Log.i("INFO", "called pull to refresh");
+                        refresh = true;
+                        mPullToRefreshLayout.setRefreshComplete();
+                    }
+                })
+                .setup(mPullToRefreshLayout);
+    }
+
+    private void fetchExhibitsFromParse() {
+        // Fetch museum object, then fetch the corresponding exhibits
+        Log.i("INFO", "query for museum id=" + museumId);
+        ParseQuery<Museum> query = ParseQuery.getQuery(Museum.class);
+        query.whereEqualTo("objectId", museumId);
+        query.getFirstInBackground(new GetCallback<Museum>() {
+            @Override
+            public void done(Museum result, ParseException e) {
+                if (e == null) {
+                    ParseQuery.getQuery(Exhibit.class)
+                            .whereEqualTo("museum", result)
+                            .findInBackground(new FindCallback<Exhibit>() {
+                                @Override
+                                public void done(List<Exhibit> exhibits1, ParseException e) {
+                                    // clear old data
+                                    Log.i("INFO", "Found " + exhibits1.size() + " exhibits");
+                                    refresh = true;
+                                    aExhibits.clear();
+                                    aExhibits.addAll(exhibits1);
+                                }
+                            });
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void updateDistances(final List<Beacon> beacons) {
+        // TODO: do I need to run this on UI thread
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // Beacons reported here are already sorted by estimated distance between device and beacon.
+                getActivity().getActionBar().setSubtitle("Found beacons: " + beacons.size());
+
+                // reset distance of each beacon to zero
+                for(Exhibit exhibit: exhibits) {
+                    exhibit.setDistance(0);
+                }
+                // update distance based on discovery
+                for (Beacon rangedBeacon : beacons) {
+                    updateDistanceForBeacon(rangedBeacon);
+                }
+                aExhibits.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void updateDistanceForBeacon(Beacon beacon) {
+        //Log.i("INFO", "Found beacon uuid=" + beacon.getProximityUUID());
+        //Log.i("INFO", "num exhibits = " + exhibits.size());
+
+        // find the exhibit this beacon matches
+        String beaconID = beacon.getProximityUUID() + ":" + beacon.getMajor() + ":" + beacon.getMinor();
+        Exhibit exhibit = findExhibitByBeaconId(beaconID);
+        if(exhibit != null) {
+            // TODO: is this the right function to compute distance?
+            double distance = Utils.computeAccuracy(beacon);
+            Log.i("INFO", "distance is " + distance); // + "; difference=" + Math.abs(exhibit.getDistance() - distance));
+            exhibit.setDistance(distance);
+        }
+    }
+
+
+    private Exhibit findExhibitByBeaconId(String beaconID) {
+        for(Exhibit exhibit: exhibits) {
+            Log.i("INFO", "comparing with " + exhibit.getBeaconId());
+            if(exhibit.getBeaconId().equalsIgnoreCase(beaconID)) {
+                return exhibit;
+            }
+        }
+        return null;
+    }
 
     private void addDummyData() {
         aExhibits.add(Exhibit.dummyObject(0));
