@@ -40,6 +40,7 @@
     android:id="@+id/rbRating"
     android:layout_below="@+id/tvUsername"
     android:layout_toRightOf="@+id/ivProfile"
+    android:isIndicator="true"
     android:layout_toEndOf="@+id/ivProfile"/>
 
   <TextView
