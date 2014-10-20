@@ -5,4 +5,7 @@
         android:title="@string/menu_create_comment"
         android:icon="@drawable/ic_create_comment"
         android:showAsAction="always" />
+    <item android:id="@+id/menu_item_next_exhibit"
+        android:icon="@drawable/ic_next_exhibit"
+        android:showAsAction="always" />
 </menu>

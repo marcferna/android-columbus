@@ -31,23 +31,21 @@ import com.parse.ParseQuery;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
-public class ExhibitListFragment extends Fragment {
+public class ExhibitListFragment extends Fragment implements Observer {
     private PtrStickyListHeadersListView lvExhibitList;
     private ArrayList<Exhibit> exhibits;
     private ArrayAdapter<Exhibit> aExhibits;
     private String museumId;
-    private String museumUUID;
-    private BeaconManager beaconManager;
-    private static Region beaconsRegionToScan;
     private Context context;
     private PullToRefreshLayout mPullToRefreshLayout;
-    private static boolean refresh;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,28 +53,6 @@ public class ExhibitListFragment extends Fragment {
         context = getActivity();
         exhibits = new ArrayList<Exhibit>();
         aExhibits = new ExhibitListAdapter(context, exhibits);
-        museumId = getArguments().getString("museumId");
-        museumUUID = getArguments().getString("museumUUID");
-        refresh = true;
-
-        beaconsRegionToScan = new Region("regionId", museumUUID /*UUID*/, null /*major*/, null /*minor*/);
-        // Configure BeaconManager.
-        // Start ranging for museum beacons in onStart(), set callback listener for discovered beacons in onCreate()
-        beaconManager = new BeaconManager(context);
-        beaconManager.setRangingListener(new BeaconManager.RangingListener() {
-            // Results are not delivered on UI thread.
-            @Override
-            public void onBeaconsDiscovered(Region region, final List<Beacon> beacons) {
-                if(!refresh) {
-                    //Log.i("INFO", "no refresh yet");
-                    return;
-                }
-                Log.i("INFO", "Ranged beacons: " + beacons);
-                updateDistances(beacons);
-                refresh = false;
-            }
-        });
-
     }
 
     public static ExhibitListFragment newInstance(String museumId, String museumUUID) {
@@ -107,55 +83,6 @@ public class ExhibitListFragment extends Fragment {
         return v;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // Check if device supports Bluetooth Low Energy.
-        if (!beaconManager.hasBluetooth()) {
-            Toast.makeText(context, "Device does not have Bluetooth Low Energy", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        // TODO: allow enabling bluetooth using intents
-        if (!beaconManager.isBluetoothEnabled()) {
-            Toast.makeText(context, "Please enable bluetooth to see nearest exhibit data", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        getActivity().getActionBar().setSubtitle("Scanning...");
-        // reset beacons list
-        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-            @Override
-            public void onServiceReady() {
-                try {
-                    Toast.makeText(context, "Starting ranging", Toast.LENGTH_SHORT).show();
-                    beaconManager.startRanging(beaconsRegionToScan);
-                } catch (RemoteException e) {
-                    Toast.makeText(context, "Cannot start ranging", Toast.LENGTH_LONG).show();
-                    Log.e("ERROR", "Cannot start ranging", e);
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        try {
-            Toast.makeText(context, "Stopping ranging", Toast.LENGTH_SHORT).show();
-            beaconManager.stopRanging(beaconsRegionToScan);
-        } catch (RemoteException e) {
-            Log.e("ERROR", "Cannot stop but it does not matter now", e);
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        beaconManager.disconnect();
-    }
-
     private void setupOnRefreshListener(View v) {
         mPullToRefreshLayout = (PullToRefreshLayout)v.findViewById(R.id.layout_exhibit_list);
 
@@ -168,7 +95,6 @@ public class ExhibitListFragment extends Fragment {
                     public void onRefreshStarted(View view) {
                         // refresh the museum list
                         Log.i("INFO", "called pull to refresh");
-                        refresh = true;
                         mPullToRefreshLayout.setRefreshComplete();
                     }
                 })
@@ -191,7 +117,6 @@ public class ExhibitListFragment extends Fragment {
                                 public void done(List<Exhibit> exhibits1, ParseException e) {
                                     // clear old data
                                     Log.i("INFO", "Found " + exhibits1.size() + " exhibits");
-                                    refresh = true;
                                     aExhibits.clear();
                                     aExhibits.addAll(exhibits1);
                                 }
@@ -264,6 +189,11 @@ public class ExhibitListFragment extends Fragment {
         aExhibits.add(Exhibit.dummyObject(300));
         aExhibits.add(Exhibit.dummyObject(800));
     }
+
+  @Override
+  public void update(Observable observable, Object data) {
+    updateDistances((List<Beacon>) data);
+  }
 }
 
 

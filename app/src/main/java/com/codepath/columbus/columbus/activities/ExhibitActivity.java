@@ -23,14 +23,20 @@ import com.codepath.columbus.columbus.fragments.exhibit.ExhibitHeaderFragment;
 import com.codepath.columbus.columbus.models.Comment;
 import com.codepath.columbus.columbus.models.Exhibit;
 import com.codepath.columbus.columbus.services.MusicService;
+import com.codepath.columbus.columbus.utils.ColumbusBeaconManager;
 import com.codepath.columbus.columbus.utils.MusicController;
+import com.estimote.sdk.Beacon;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import android.widget.MediaController.MediaPlayerControl;
 
-public class ExhibitActivity extends SherlockFragmentActivity implements MediaPlayerControl, MusicService.MusicServiceCallbacks {
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+
+public class ExhibitActivity extends SherlockFragmentActivity implements MediaPlayerControl, MusicService.MusicServiceCallbacks, Observer {
 
   // Fragments
   private ExhibitHeaderFragment headerFragment;
@@ -42,6 +48,7 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
 
   private String exhibitId;
   private Exhibit exhibit;
+  private Exhibit nextExhibit;
 
   private MusicController controller;
   private MusicService musicService;
@@ -59,6 +66,10 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
     setViews();
     fetchExhibit();
     setController();
+    List<Beacon> beaconsInRange = ColumbusBeaconManager.sharedBeaconManager(getApplicationContext()).getBeaconsInRange();
+    if (beaconsInRange.size() > 0) {
+      setNextExhibit(beaconsInRange.get(0));
+    }
   }
 
   @Override
@@ -136,11 +147,41 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
     controller = new MusicController(this);
   }
 
+  private void setNextExhibit(Beacon closestBeacon) {
+    ParseQuery<Exhibit> query = ParseQuery.getQuery(Exhibit.class);
+    // First try to find from the cache and only then go to network
+    query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK); // or CACHE_ONLY
+    String beaconId = closestBeacon.getProximityUUID() + ":" + closestBeacon.getMajor() + ":" + closestBeacon.getMinor();
+    query.whereEqualTo("beaconId", beaconId);
+
+    // Execute the query to find the object with ID
+    query.getFirstInBackground(new GetCallback<Exhibit>() {
+      public void done(Exhibit exhibit, ParseException e) {
+        if (e == null) {
+          nextExhibit = exhibit;
+          ExhibitActivity.this.invalidateOptionsMenu();
+        }
+      }
+    });
+  }
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
     getSupportMenuInflater().inflate(R.menu.exhibit, menu);
     return true;
+  }
+
+  @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    MenuItem item = menu.findItem(R.id.menu_item_next_exhibit);
+    if (nextExhibit != null) {
+      item.setVisible(true);
+      item.setTitle(nextExhibit.getName());
+    } else {
+      item.setVisible(false);
+    }
+    return super.onPrepareOptionsMenu(menu);
   }
 
   @Override
@@ -301,5 +342,14 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
   @Override
   public int getAudioSessionId() {
     return 0;
+  }
+
+  @Override
+  public void update(Observable observable, Object data) {
+    nextExhibit = null;
+    List<Beacon> beaconsInRange = (List<Beacon>)data;
+    if (beaconsInRange.size() > 0) {
+      setNextExhibit(beaconsInRange.get(0));
+    }
   }
 }

@@ -9,6 +9,7 @@ import android.os.StrictMode;
 import com.codepath.columbus.columbus.models.Comment;
 import com.codepath.columbus.columbus.models.Exhibit;
 import com.codepath.columbus.columbus.models.Museum;
+import com.codepath.columbus.columbus.utils.ColumbusBeaconManager;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -22,7 +23,7 @@ import com.parse.ParseObject;
 /**
  * Created by marc on 10/9/14.
  */
-public class ColumbusApplication extends Application{
+public class ColumbusApplication extends Application {
 
   public static final boolean DEVELOPER_MODE = false;
 
@@ -40,6 +41,7 @@ public class ColumbusApplication extends Application{
     initImageLoader(getApplicationContext());
 
     setupParse();
+    setupBeacons();
   }
 
   public static void initImageLoader(Context context) {
@@ -68,5 +70,9 @@ public class ColumbusApplication extends Application{
 
     // initialize parse with columbus application id/client_key
     Parse.initialize(this,"OAQsicQdL1q6JImFqg0bwAO5fxCzRYYFTXrzF1ih","PqgCWGd36DNxEzQmazyBManGsJZs4RPyKHn2QUd2");
+  }
+
+  public void setupBeacons() {
+    ColumbusBeaconManager.sharedBeaconManager(getApplicationContext()).init();
   }
 }
