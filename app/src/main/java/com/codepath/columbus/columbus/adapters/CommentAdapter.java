@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.models.Comment;
+import com.codepath.columbus.columbus.utils.DateExtension;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -60,7 +61,8 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
     ImageLoader imageLoader = ImageLoader.getInstance();
     imageLoader.displayImage(comment.getGoogleUserAvatarUrl(), viewHolder.ivProfile);
     viewHolder.tvUsername.setText(comment.getName());
-//    viewHolder.tvCreatedAt.setText(comment.getCreatedAt().toString());
+    DateExtension commentDate = new DateExtension(comment.getCreatedAt());
+    viewHolder.tvCreatedAt.setText(commentDate.getRelativeTimeAgo(Comment.createdAtFormat));
     viewHolder.tvComment.setText(comment.getCommentBody());
     viewHolder.rbRating.setRating(comment.getRating());
 

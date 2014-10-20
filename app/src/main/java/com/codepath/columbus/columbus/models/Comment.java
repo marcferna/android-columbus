@@ -15,6 +15,8 @@ import java.util.Date;
 @ParseClassName("Comment")
 public class Comment extends ParseObject {
 
+  public static String createdAtFormat = "EEE MMM dd HH:mm:ss ZZZZ yyyy";
+
   private String name;
 
   private String googleUserAvatarUrl;
@@ -61,10 +63,6 @@ public class Comment extends ParseObject {
 
   public void setRating(float rating) {
     put("rating", rating);
-  }
-
-  public Date getCreatedAt() {
-    return getDate("imageUrl");
   }
 
   public ParseRelation<Exhibit> getExhibit() {
