@@ -60,16 +60,6 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyL
         // Clear recycled view
         viewHolder.ivExhibitImage.setImageResource(0);
 
-        // Setup listeners
-        viewHolder.tvExhibitShortDesc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext(), ExhibitActivity.class);
-                i.putExtra("exhibitId", exhibit.getObjectId());
-                activity.startActivity(i);
-            }
-        });
-
         // Populate resources
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.displayImage(exhibit.getImageUrls().get(0), viewHolder.ivExhibitImage);

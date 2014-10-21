@@ -2,6 +2,7 @@ package com.codepath.columbus.columbus.fragments.exhibit_list;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.v4.app.Fragment;
@@ -9,11 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.codepath.columbus.columbus.R;
+import com.codepath.columbus.columbus.activities.ExhibitActivity;
 import com.codepath.columbus.columbus.adapters.ExhibitListAdapter;
 import com.codepath.columbus.columbus.models.Exhibit;
 import com.codepath.columbus.columbus.models.Museum;
@@ -59,24 +62,21 @@ public class ExhibitListFragment extends Fragment {
         museumUUID = getArguments().getString("museumUUID");
         refresh = true;
 
-        beaconsRegionToScan = new Region("regionId", museumUUID /*UUID*/, null /*major*/, null /*minor*/);
-        // Configure BeaconManager.
         // Start ranging for museum beacons in onStart(), set callback listener for discovered beacons in onCreate()
+        // Configure BeaconManager.
+        beaconsRegionToScan = new Region("regionId", museumUUID /*UUID*/, null /*major*/, null /*minor*/);
         beaconManager = new BeaconManager(context);
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             // Results are not delivered on UI thread.
             @Override
             public void onBeaconsDiscovered(Region region, final List<Beacon> beacons) {
-                if(!refresh) {
-                    //Log.i("INFO", "no refresh yet");
-                    return;
+                if(refresh) {
+                    Log.i("INFO", "Ranged beacons: " + beacons);
+                    updateDistances(beacons);
+                    refresh = false;
                 }
-                Log.i("INFO", "Ranged beacons: " + beacons);
-                updateDistances(beacons);
-                refresh = false;
             }
         });
-
     }
 
     public static ExhibitListFragment newInstance(String museumId, String museumUUID) {
@@ -98,6 +98,7 @@ public class ExhibitListFragment extends Fragment {
         lvExhibitList.setAdapter((se.emilsjolander.stickylistheaders.StickyListHeadersAdapter) aExhibits);
 
         //addDummyData();
+        setupListViewListeners();
         setupOnRefreshListener(v);
         fetchExhibitsFromParse();
 
@@ -156,6 +157,20 @@ public class ExhibitListFragment extends Fragment {
         beaconManager.disconnect();
     }
 
+    private void setupListViewListeners() {
+        lvExhibitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("DEBUG", "firing detailed activity");
+                // bring up edit activity with items[position]
+                Intent i = new Intent(context, ExhibitActivity.class);
+                Exhibit selectedExhibit = (Exhibit) exhibits.get(position);
+                i.putExtra("exhibitId", selectedExhibit.getObjectId());
+                context.startActivity(i);
+            }
+        });
+    }
+
     private void setupOnRefreshListener(View v) {
         mPullToRefreshLayout = (PullToRefreshLayout)v.findViewById(R.id.layout_exhibit_list);
 
@@ -175,9 +190,10 @@ public class ExhibitListFragment extends Fragment {
                 .setup(mPullToRefreshLayout);
     }
 
+
     private void fetchExhibitsFromParse() {
         // Fetch museum object, then fetch the corresponding exhibits
-        Log.i("INFO", "query for museum id=" + museumId);
+        Log.i("INFO", "querying exhibits for museum id=" + museumId);
         ParseQuery<Museum> query = ParseQuery.getQuery(Museum.class);
         query.whereEqualTo("objectId", museumId);
         query.getFirstInBackground(new GetCallback<Museum>() {
@@ -189,7 +205,6 @@ public class ExhibitListFragment extends Fragment {
                             .findInBackground(new FindCallback<Exhibit>() {
                                 @Override
                                 public void done(List<Exhibit> exhibits1, ParseException e) {
-                                    // clear old data
                                     Log.i("INFO", "Found " + exhibits1.size() + " exhibits");
                                     refresh = true;
                                     aExhibits.clear();
@@ -225,16 +240,12 @@ public class ExhibitListFragment extends Fragment {
     }
 
     private void updateDistanceForBeacon(Beacon beacon) {
-        //Log.i("INFO", "Found beacon uuid=" + beacon.getProximityUUID());
-        //Log.i("INFO", "num exhibits = " + exhibits.size());
-
         // find the exhibit this beacon matches
         String beaconID = beacon.getProximityUUID() + ":" + beacon.getMajor() + ":" + beacon.getMinor();
         Exhibit exhibit = findExhibitByBeaconId(beaconID);
         if(exhibit != null) {
-            // TODO: is this the right function to compute distance?
             double distance = Utils.computeAccuracy(beacon);
-            Log.i("INFO", "distance is " + distance); // + "; difference=" + Math.abs(exhibit.getDistance() - distance));
+            Log.i("INFO", "distance is " + distance);
             exhibit.setDistance(distance);
         }
     }
