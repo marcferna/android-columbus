@@ -63,7 +63,8 @@
 
         <activity
             android:name="com.codepath.columbus.columbus.activities.ExhibitCreateCommentActivity"
-            android:label="@string/title_activity_exhibit_create_comment" >
+            android:label="@string/title_activity_exhibit_create_comment"
+            android:windowSoftInputMode="stateVisible">
         </activity>
 
         <meta-data

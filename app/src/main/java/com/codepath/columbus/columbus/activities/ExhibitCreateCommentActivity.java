@@ -11,6 +11,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.models.Comment;
@@ -30,8 +31,6 @@ public class ExhibitCreateCommentActivity extends SherlockActivity {
   // UI Elements
   RatingBar rbExhibitRating;
   TextView tvCommentBody;
-  Button btPost;
-  Button btCancel;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -68,19 +67,33 @@ public class ExhibitCreateCommentActivity extends SherlockActivity {
   private void setViews() {
     rbExhibitRating = (RatingBar) findViewById(R.id.rbExhibitRating);
     tvCommentBody = (TextView) findViewById(R.id.tvCommentBody);
-    btPost = (Button) findViewById(R.id.btPost);
-    btPost.setOnClickListener(new Button.OnClickListener() {
-      public void onClick(View v) {
-        postCommentAction();
-      }
-    });
+  }
 
-    btCancel = (Button) findViewById(R.id.btCancel);
-    btCancel.setOnClickListener(new Button.OnClickListener() {
-      public void onClick(View v) {
-        cancelCommentAction();
-      }
-    });
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    // Inflate the menu; this adds items to the action bar if it is present.
+    getSupportMenuInflater().inflate(R.menu.create_comment, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle action bar item clicks here. The action bar will
+    // automatically handle clicks on the Home/Up button, so long
+    // as you specify a parent activity in AndroidManifest.xml.
+    int id = item.getItemId();
+    switch (id) {
+      case R.id.menu_item_submit_comment:
+        // Launch the add comment intent
+        postCommentAction();
+        return true;
+
+      case android.R.id.home:
+        // app icon in action bar clicked; goto parent activity.
+        this.finish();
+        return true;
+    }
+    return super.onOptionsItemSelected(item);
   }
 
   private void postCommentAction() {
@@ -105,32 +118,11 @@ public class ExhibitCreateCommentActivity extends SherlockActivity {
     });
   }
 
-  private void cancelCommentAction() {
-    Intent data = new Intent();
-    setResult(RESULT_CANCELED, data);
-    finish();
-  }
-
   private String getUserName() {
     return sharedPreferences.getString("username", "Unknown");
   }
 
   public String getUserAvatar() {
     return sharedPreferences.getString("imageURL", "https://lh4.googleusercontent.com/-KJFl04DeV8Y/AAAAAAAAAAI/AAAAAAAAAAA/YQZ6Fv1VWzw/photo.jpg");
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
-    int id = item.getItemId();
-    switch (id) {
-      case android.R.id.home:
-        // app icon in action bar clicked; goto parent activity.
-        this.finish();
-        return true;
-    }
-    return super.onOptionsItemSelected(item);
   }
 }
