@@ -13,10 +13,10 @@
         android:id="@+id/tvExhibitTitle"
         android:textStyle="bold"
         android:textSize="16sp"
-        android:layout_alignParentTop="true"
+        android:hint="@string/exhibit_title_default"
+        android:layout_below="@+id/ivExhibitImage"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:hint="@string/exhibit_title_default" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/tvExhibitShortDesc"
@@ -25,26 +25,26 @@
         android:text="@string/exhibit_desc_default"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:layout_below="@+id/tvExhibitTitle"
+        android:paddingBottom="5dp"
         android:maxLines="2"
         android:ellipsize="end"
         android:textSize="14sp"
         android:textColor="#585858"
+        android:layout_below="@+id/tvExhibitTitle"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/ivExhibitImage"
-        android:layout_toStartOf="@+id/ivExhibitImage" />
+        android:layout_alignParentStart="true" />
 
     <ImageView
         android:id="@+id/ivExhibitImage"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
         android:background="@null"
-        android:layout_marginRight="10dp"
+        android:layout_height="200dp"
+        android:layout_width="fill_parent"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:src="@drawable/icon_error"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_launcher" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"/>
 
     <TextView
         android:layout_width="wrap_content"

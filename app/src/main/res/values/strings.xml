@@ -9,7 +9,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_exhibit_list">ExhibitListActivity</string>
     <string name="exhibit_title_default">Exhibit Title</string>
-    <string name="exhibit_desc_default">Short exhibit description</string>
+    <string name="exhibit_desc_default">Short description of this exhibit with ellipses</string>
     <string name="title_activity_museum">Museums</string>
     <string name="title_activity_login">Login</string>
     <string name="default_distance">0 ft</string>

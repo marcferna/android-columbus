@@ -11,17 +11,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.codepath.columbus.columbus.R;
-import com.codepath.columbus.columbus.fragments.exhibit.ExhibitHeaderFragment;
 import com.codepath.columbus.columbus.fragments.exhibit_list.ExhibitListFragment;
-import com.codepath.columbus.columbus.models.Museum;
-import com.estimote.sdk.Beacon;
-import com.estimote.sdk.BeaconManager;
-import com.estimote.sdk.Region;
 
-import java.util.List;
 
 public class ExhibitListActivity extends FragmentActivity {
     private ExhibitListFragment exhibitListFragment;

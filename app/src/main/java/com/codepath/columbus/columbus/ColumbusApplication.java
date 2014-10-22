@@ -44,8 +44,8 @@ public class ColumbusApplication extends Application{
 
   public static void initImageLoader(Context context) {
     DisplayImageOptions options = new DisplayImageOptions.Builder()
-                                      .showImageForEmptyUri(R.drawable.ic_launcher) // TODO: Change this
-                                      .showImageOnFail(R.drawable.ic_launcher).resetViewBeforeLoading() // TODO: Change this
+                                      .showImageForEmptyUri(R.drawable.icon_launcher) // TODO: Change this
+                                      .showImageOnFail(R.drawable.icon_error).resetViewBeforeLoading() // TODO: Change this
                                       .cacheOnDisc().imageScaleType(ImageScaleType.EXACTLY)
                                       .bitmapConfig(Bitmap.Config.RGB_565)
                                       .displayer(new FadeInBitmapDisplayer(300)).build();
