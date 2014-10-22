@@ -63,7 +63,9 @@ public class MuseumListFragment extends Fragment {
         lvMuseums.setAdapter(museumItemAdapter);
 
         // fetch museum list
-        ParseQuery.getQuery(Museum.class).findInBackground(new FindCallback<Museum>() {
+        ParseQuery<Museum> query = ParseQuery.getQuery("Museum");
+        query.orderByAscending("name");
+        query.findInBackground(new FindCallback<Museum>() {
             @Override
             public void done(List<Museum> museums, ParseException e) {
                 // clear old data
