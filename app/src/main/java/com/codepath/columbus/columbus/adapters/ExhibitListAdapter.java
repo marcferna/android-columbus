@@ -3,6 +3,7 @@ package com.codepath.columbus.columbus.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,6 +101,8 @@ public class ExhibitListAdapter extends ArrayAdapter<Exhibit> implements StickyL
         }
 
         holder.text.setText(headerText);
+        holder.text.setTextColor(Color.parseColor("#ffffff"));
+        holder.text.setBackgroundColor(Color.parseColor("#ff7077"));
         return convertView;
     }
 

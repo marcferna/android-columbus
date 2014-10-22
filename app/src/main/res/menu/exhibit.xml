@@ -3,6 +3,6 @@
     tools:context="com.codepath.columbus.columbus.activities.ExhibitActivity" >
     <item android:id="@+id/menu_item_create_comment"
         android:title="@string/menu_create_comment"
-        android:icon="@drawable/ic_create_comment"
+        android:icon="@drawable/icon_compose"
         android:showAsAction="always" />
 </menu>
