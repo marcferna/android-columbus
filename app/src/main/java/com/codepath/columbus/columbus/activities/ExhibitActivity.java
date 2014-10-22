@@ -176,6 +176,8 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
           if (e == null) {
             contentFragment.addComment(comment);
             Toast.makeText(ExhibitActivity.this, "Comment posted!", Toast.LENGTH_SHORT).show();
+          } else {
+            Toast.makeText(ExhibitActivity.this, "Sorry, there was an error posting your comment, please try again.", Toast.LENGTH_SHORT).show();
           }
         }
       });
@@ -225,9 +227,6 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
         controller.show();
       }
     });
-
-    // start the audio
-    start();
   }
 
   private void hideLoadingElements() {
