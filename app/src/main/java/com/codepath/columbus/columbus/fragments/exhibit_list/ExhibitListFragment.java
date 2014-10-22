@@ -166,6 +166,7 @@ public class ExhibitListFragment extends Fragment {
                 Intent i = new Intent(context, ExhibitActivity.class);
                 Exhibit selectedExhibit = (Exhibit) exhibits.get(position);
                 i.putExtra("exhibitId", selectedExhibit.getObjectId());
+                i.putExtra("exhibitName", selectedExhibit.getName());
                 context.startActivity(i);
             }
         });

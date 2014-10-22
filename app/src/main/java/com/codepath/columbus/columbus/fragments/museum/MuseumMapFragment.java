@@ -89,6 +89,7 @@ public class MuseumMapFragment extends Fragment implements
                                Intent i = new Intent(getActivity(), ExhibitListActivity.class);
                                i.putExtra("museumId",museum.getObjectId());
                                i.putExtra("museumUUID",museum.getBeaconUUID());
+                               i.putExtra("museumNickname",museum.getNickname());
                                getActivity().startActivity(i);
                            }
                        });

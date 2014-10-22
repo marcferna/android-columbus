@@ -1,6 +1,6 @@
 package com.codepath.columbus.columbus.activities;
 
-import android.app.Activity;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.models.Comment;
 import com.codepath.columbus.columbus.models.Exhibit;
@@ -18,7 +20,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
-public class ExhibitCreateCommentActivity extends Activity {
+public class ExhibitCreateCommentActivity extends SherlockActivity {
 
   SharedPreferences sharedPreferences;
 
@@ -39,6 +41,13 @@ public class ExhibitCreateCommentActivity extends Activity {
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     fetchExhibit();
     setViews();
+    setActionBar();
+  }
+
+  public void setActionBar() {
+    ActionBar actionBar = getActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
+    actionBar.setTitle("Comment");
   }
 
   private void fetchExhibit() {
@@ -106,8 +115,22 @@ public class ExhibitCreateCommentActivity extends Activity {
     return sharedPreferences.getString("username", "Unknown");
   }
 
-
   public String getUserAvatar() {
     return sharedPreferences.getString("imageURL", "https://lh4.googleusercontent.com/-KJFl04DeV8Y/AAAAAAAAAAI/AAAAAAAAAAA/YQZ6Fv1VWzw/photo.jpg");
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle action bar item clicks here. The action bar will
+    // automatically handle clicks on the Home/Up button, so long
+    // as you specify a parent activity in AndroidManifest.xml.
+    int id = item.getItemId();
+    switch (id) {
+      case android.R.id.home:
+        // app icon in action bar clicked; goto parent activity.
+        this.finish();
+        return true;
+    }
+    return super.onOptionsItemSelected(item);
   }
 }

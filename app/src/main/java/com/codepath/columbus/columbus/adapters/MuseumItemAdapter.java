@@ -50,6 +50,7 @@ public class MuseumItemAdapter extends ArrayAdapter<Museum> {
                 Intent i = new Intent(getContext(), ExhibitListActivity.class);
                 i.putExtra("museumId",museum.getObjectId());
                 i.putExtra("museumUUID",museum.getBeaconUUID());
+                i.putExtra("museumNickname",museum.getNickname());
                 activity.startActivity(i);
             }
         });

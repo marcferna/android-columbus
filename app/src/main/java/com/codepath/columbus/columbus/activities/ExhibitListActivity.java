@@ -1,5 +1,6 @@
 package com.codepath.columbus.columbus.activities;
 
+import android.app.ActionBar;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,18 +26,28 @@ import java.util.List;
 public class ExhibitListActivity extends FragmentActivity {
     private ExhibitListFragment exhibitListFragment;
 
+    private String museumNickname;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exhibit_list);
         String museumId = getIntent().getStringExtra("museumId");
         String museumUUID = getIntent().getStringExtra("museumUUID");
+        museumNickname = getIntent().getStringExtra("museumNickname");
         //museumId = "zguAHcyS7S";
         //museumUUID = "8492e75f-4fd6-469d-b132-043fe94921d8";
         Log.i("INFO", "activity museum id=" + museumId + "; uuid=" + museumUUID);
 
         exhibitListFragment = ExhibitListFragment.newInstance(museumId, museumUUID);
+        setActionBar();
         loadFragment();
+    }
+
+    public void setActionBar() {
+      ActionBar actionBar = getActionBar();
+      actionBar.setDisplayHomeAsUpEnabled(true);
+      actionBar.setTitle(museumNickname + " Exhibits");
     }
 
     private void loadFragment() {
@@ -46,21 +57,13 @@ public class ExhibitListActivity extends FragmentActivity {
         ft.commit();
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.exhibit_list, menu);
-        return true;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        switch (id) {
+          case android.R.id.home:
+            // app icon in action bar clicked; goto parent activity.
+            this.finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

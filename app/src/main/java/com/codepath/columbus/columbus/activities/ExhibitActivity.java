@@ -1,5 +1,6 @@
 package com.codepath.columbus.columbus.activities;
 
+import android.app.ActionBar;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -41,6 +42,7 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
   private TextView tvLoadingMediaPlayer;
 
   private String exhibitId;
+  private String exhibitName;
   private Exhibit exhibit;
 
   private MusicController controller;
@@ -56,6 +58,8 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_exhibit);
     exhibitId = getIntent().getStringExtra("exhibitId");
+    exhibitName = getIntent().getStringExtra("exhibitName");
+    setActionBar();
     setViews();
     fetchExhibit();
     setController();
@@ -89,6 +93,12 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
     controller.hide();
     musicService = null;
     super.onDestroy();
+  }
+
+  public void setActionBar() {
+    ActionBar actionBar = getActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
+    actionBar.setTitle(exhibitName);
   }
 
   public void setViews() {
@@ -149,9 +159,16 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
     // automatically handle clicks on the Home/Up button, so long
     // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
-    if (id == R.id.menu_item_create_comment) {
-      // Launch the add comment intent
-      launchCreateCommentActivity();
+    switch (id) {
+      case R.id.menu_item_create_comment:
+        // Launch the add comment intent
+        launchCreateCommentActivity();
+        return true;
+
+      case android.R.id.home:
+        // app icon in action bar clicked; goto parent activity.
+        this.finish();
+        return true;
     }
     return super.onOptionsItemSelected(item);
   }
