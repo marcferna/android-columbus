@@ -30,5 +30,16 @@
         <item name="android:fadingEdgeLength">8dp</item>
     </style>
 
+    <style name="MuseumNameShadowText">
+        <item name="android:paddingLeft">4px</item>
+        <item name="android:paddingBottom">4px</item>
+        <item name="android:textColor">#ffffffff</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:shadowColor">#FF7077</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">3</item>
+    </style>
+
 
 </resources>

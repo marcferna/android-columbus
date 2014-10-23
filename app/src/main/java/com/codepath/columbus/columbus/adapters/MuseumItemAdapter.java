@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,8 +72,7 @@ public class MuseumItemAdapter extends ArrayAdapter<Museum> {
         });
 
         TextView tvMuseumName = (TextView)convertView.findViewById(R.id.tvMuseum);
-        String name = "<b><font color=\"#15c2fb\">"+museum.getName()+" </b></font>";
-        tvMuseumName.setText(Html.fromHtml(name));
+        tvMuseumName.setText(museum.getName());
 
         return convertView;
     }
