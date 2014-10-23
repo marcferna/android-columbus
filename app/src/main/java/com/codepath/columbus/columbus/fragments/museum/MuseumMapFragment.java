@@ -177,7 +177,7 @@ public class MuseumMapFragment extends Fragment implements
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
             map.animateCamera(cameraUpdate);
         } else {
-            Toast.makeText(this.getActivity(), "Current location was null, enable GPS", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.getActivity(), "Enable GPS", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -216,7 +216,7 @@ public class MuseumMapFragment extends Fragment implements
             }
         } else {
             Toast.makeText(this.getActivity(),
-                    "Sorry. Location services not available to you", Toast.LENGTH_LONG).show();
+                    "Sorry. Map view not available", Toast.LENGTH_LONG).show();
         }
     }
 

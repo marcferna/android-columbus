@@ -31,19 +31,30 @@ public class MuseumItemAdapter extends ArrayAdapter<Museum> {
         activity = (Activity)context;
     }
 
-    // TODO - ViewHolder
+    public class ViewHolder{
+        LinearLayout llMuseum;
+        TextView tvMuseumName;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         final Museum museum = getItem(position);
+        final ViewHolder viewHolder;
         if (convertView == null){
+            viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.museum_item,parent,false);
+
+            viewHolder.llMuseum = (LinearLayout)convertView.findViewById(R.id.llMuseumItem);
+            viewHolder.tvMuseumName = (TextView)convertView.findViewById(R.id.tvMuseum);
+
+            convertView.setTag(viewHolder);
+        }else{
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        final LinearLayout llMuseum = (LinearLayout)convertView.findViewById(R.id.llMuseumItem);
-
         // setting the listener on the Museum
-        llMuseum.setOnClickListener(new View.OnClickListener() {
+        viewHolder.llMuseum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), ExhibitListActivity.class);
@@ -64,16 +75,14 @@ public class MuseumItemAdapter extends ArrayAdapter<Museum> {
 
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 // remove the progress bar
-                llMuseum.setBackground(new BitmapDrawable(llMuseum.getResources(),loadedImage));
+                viewHolder.llMuseum.setBackground(new BitmapDrawable(viewHolder.llMuseum.getResources(),loadedImage));
             }
 
             public void onLoadingCancelled(String imageUri, View view) {
             }
         });
 
-        TextView tvMuseumName = (TextView)convertView.findViewById(R.id.tvMuseum);
-        tvMuseumName.setText(museum.getName());
-
+        viewHolder.tvMuseumName.setText(museum.getName());
         return convertView;
     }
 }
