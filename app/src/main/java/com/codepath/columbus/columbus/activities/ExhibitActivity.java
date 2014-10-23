@@ -10,7 +10,9 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
 import android.view.View;
+import android.widget.MediaController.MediaPlayerControl;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,8 +30,6 @@ import com.codepath.columbus.columbus.utils.MusicController;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-
-import android.widget.MediaController.MediaPlayerControl;
 
 public class ExhibitActivity extends SherlockFragmentActivity implements MediaPlayerControl, MusicService.MusicServiceCallbacks {
 
@@ -98,7 +98,8 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
   public void setActionBar() {
     ActionBar actionBar = getActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setTitle(exhibitName);
+    String title = "<font color=\""+getResources().getColor(R.color.actionbar_title_color)+"\">"+exhibitName+"</font>";
+    actionBar.setTitle(Html.fromHtml(title));
   }
 
   public void setViews() {

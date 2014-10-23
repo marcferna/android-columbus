@@ -41,5 +41,6 @@
         <item name="android:shadowRadius">3</item>
     </style>
 
+    <color name="actionbar_title_color">#423d3d</color>
 
 </resources>

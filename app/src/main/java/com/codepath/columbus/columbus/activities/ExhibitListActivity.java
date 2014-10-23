@@ -1,15 +1,12 @@
 package com.codepath.columbus.columbus.activities;
 
 import android.app.ActionBar;
-import android.bluetooth.BluetoothAdapter;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.codepath.columbus.columbus.R;
@@ -40,7 +37,9 @@ public class ExhibitListActivity extends FragmentActivity {
     public void setActionBar() {
       ActionBar actionBar = getActionBar();
       actionBar.setDisplayHomeAsUpEnabled(true);
-      actionBar.setTitle(museumNickname + " Exhibits");
+
+      String title = "<font color=\""+getResources().getColor(R.color.actionbar_title_color)+"\">"+museumNickname + " Exhibits </font>";
+      actionBar.setTitle(Html.fromHtml(title));
     }
 
     private void loadFragment() {

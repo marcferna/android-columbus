@@ -1,8 +1,10 @@
 package com.codepath.columbus.columbus.activities;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -40,6 +42,8 @@ public class MuseumActivity extends SherlockFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_museum);
 
+        setActionBar();
+
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
         pagerAdapter = new MuseumPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(pagerAdapter);
@@ -48,4 +52,10 @@ public class MuseumActivity extends SherlockFragmentActivity {
         titleIndicator.setViewPager(vpPager);
     }
 
+
+    public void setActionBar() {
+        ActionBar actionBar = getActionBar();
+        String title = "<font color=\""+getResources().getColor(R.color.actionbar_title_color)+"\">Museums</font>";
+        actionBar.setTitle(Html.fromHtml(title));
+    }
 }
