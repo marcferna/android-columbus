@@ -19,6 +19,9 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by marc on 10/9/14.
  */
@@ -40,6 +43,7 @@ public class ColumbusApplication extends Application{
     initImageLoader(getApplicationContext());
 
     setupParse();
+    setupFonts();
   }
 
   public static void initImageLoader(Context context) {
@@ -68,5 +72,9 @@ public class ColumbusApplication extends Application{
 
     // initialize parse with columbus application id/client_key
     Parse.initialize(this,"OAQsicQdL1q6JImFqg0bwAO5fxCzRYYFTXrzF1ih","PqgCWGd36DNxEzQmazyBManGsJZs4RPyKHn2QUd2");
+  }
+
+  public void setupFonts() {
+    CalligraphyConfig.initDefault("assets/fonts/CircularStd-Bold.otf", R.attr.fontPath);
   }
 }

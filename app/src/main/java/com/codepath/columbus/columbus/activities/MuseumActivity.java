@@ -1,6 +1,7 @@
 package com.codepath.columbus.columbus.activities;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -13,11 +14,17 @@ import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.adapters.MuseumPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 
 public class MuseumActivity extends SherlockFragmentActivity {
 
     MuseumPagerAdapter pagerAdapter;
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+      super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

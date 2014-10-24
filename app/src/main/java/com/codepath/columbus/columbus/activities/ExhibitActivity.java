@@ -33,6 +33,8 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class ExhibitActivity extends SherlockFragmentActivity implements MediaPlayerControl, MusicService.MusicServiceCallbacks {
 
   // Fragments
@@ -54,6 +56,11 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
   private boolean paused = false;
 
   private static int CREATE_COMMENT_REQUEST = 1;
+
+  @Override
+  protected void attachBaseContext(Context newBase) {
+    super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
