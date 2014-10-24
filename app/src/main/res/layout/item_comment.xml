@@ -9,7 +9,7 @@
     android:layout_width="100dp"
     android:layout_height="100dp"
     android:id="@+id/ivProfile"
-    android:src="@drawable/icon_login"
+    android:src="@drawable/ic_login"
     android:layout_alignParentTop="true"
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"/>

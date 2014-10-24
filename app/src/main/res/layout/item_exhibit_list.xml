@@ -41,7 +41,7 @@
         android:layout_width="fill_parent"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        android:src="@drawable/icon_error"
+        android:src="@drawable/ic_error"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"/>

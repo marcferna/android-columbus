@@ -4,7 +4,7 @@
 
     <item android:id="@+id/action_login"
         android:title="@string/action_login"
-        android:icon="@drawable/icon_login"
+        android:icon="@drawable/ic_login"
         android:orderInCategory="100"
         android:showAsAction="always" />
 </menu>
