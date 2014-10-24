@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -65,6 +66,18 @@ public class MuseumItemAdapter extends ArrayAdapter<Museum> {
             }
         });
 
+        viewHolder.llMuseum.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                    view.setAlpha(0.8f);
+                }else {
+                    view.setAlpha(1f);
+                }
+                return false;
+            }
+        });
+
         ImageLoader.getInstance().loadImage(museum.getImageUrl(), new ImageLoadingListener() {
             public void onLoadingStarted(String imageUri, View view) {
                 // show the progress bar
@@ -75,7 +88,7 @@ public class MuseumItemAdapter extends ArrayAdapter<Museum> {
 
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 // remove the progress bar
-                viewHolder.llMuseum.setBackground(new BitmapDrawable(viewHolder.llMuseum.getResources(),loadedImage));
+                viewHolder.llMuseum.setBackground(new BitmapDrawable(viewHolder.llMuseum.getResources(), loadedImage));
             }
 
             public void onLoadingCancelled(String imageUri, View view) {
