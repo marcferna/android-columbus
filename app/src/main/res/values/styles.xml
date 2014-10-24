@@ -11,8 +11,23 @@
         <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
     </style>
 
+    <!-- Theme without ActionBar shadow (inherits main theme) -->
+    <style name="TransparentActionBarTheme" parent="MyCustomTheme">
+      <item name="android:actionBarStyle">@style/TransparentActionBarTheme.ActionBar</item>
+      <item name="actionBarStyle">@style/TransparentActionBarTheme.ActionBar</item>
+      <item name="windowContentOverlay">@null</item>
+      <item name="android:windowContentOverlay">@null</item>
+      <item name="android:windowActionBarOverlay">true</item>
+      <item name="windowActionBarOverlay">true</item>
+    </style>
+
     <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">#FFFFFF</item>
+    </style>
+
+    <style name="TransparentActionBarTheme.ActionBar" parent="@style/Widget.Sherlock.ActionBar">
+      <item name="android:background">@drawable/exhibit_actionbar_bg</item>
+      <item name="background">@drawable/exhibit_actionbar_bg</item>
     </style>
 
     <style name="MyTheme.ActionBar.TabView" parent="android:style/Widget.Holo.ActionBar.TabView">
@@ -21,7 +36,7 @@
 
     <style name="CustomTabPageIndicator"  parent="Widget.TabPageIndicator">
         <item name="android:textSize">15sp</item>
-        <item name="android:textColor">#FF7077</item>
+        <item name="android:textColor">@color/pink_orange</item>
         <item name="android:background">@drawable/custom_tab_indicator</item>
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingLeft">8dp</item>
@@ -42,5 +57,14 @@
     </style>
 
     <color name="actionbar_title_color">#423d3d</color>
+
+    <style name="TransparentActionBarTheme.HeaderTitle">
+      <item name="android:textColor">#ffffffff</item>
+      <item name="android:textSize">20sp</item>
+      <item name="android:shadowColor">#ccc</item>
+      <item name="android:shadowDy">1</item>
+      <item name="android:shadowRadius">3</item>
+
+    </style>
 
 </resources>

@@ -5,6 +5,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -57,8 +59,8 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_exhibit);
+
     exhibitId = getIntent().getStringExtra("exhibitId");
-    exhibitName = getIntent().getStringExtra("exhibitName");
     setActionBar();
     setViews();
     fetchExhibit();
@@ -98,8 +100,6 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
   public void setActionBar() {
     ActionBar actionBar = getActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
-    String title = "<font color=\""+getResources().getColor(R.color.actionbar_title_color)+"\">"+exhibitName+"</font>";
-    actionBar.setTitle(Html.fromHtml(title));
   }
 
   public void setViews() {

@@ -39,8 +39,8 @@
 
         <activity
             android:name="com.codepath.columbus.columbus.activities.ExhibitActivity"
-            android:label="@string/title_activity_exhibit" >
-
+            android:label=""
+            android:theme="@style/TransparentActionBarTheme">
 
         </activity>
         <activity

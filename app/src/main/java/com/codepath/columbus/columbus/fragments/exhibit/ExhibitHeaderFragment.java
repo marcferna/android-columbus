@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.adapters.ImageSlideAdapter;
@@ -20,6 +21,7 @@ public class ExhibitHeaderFragment extends ExhibitFragment {
 
   // UI References
   private ViewPager viewPager;
+  private TextView tvExhibitName;
 
   public static ExhibitHeaderFragment newInstance(Exhibit exhibit) {
     ExhibitHeaderFragment fragment = new ExhibitHeaderFragment();
@@ -40,8 +42,14 @@ public class ExhibitHeaderFragment extends ExhibitFragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_exhibit_header, container, false);
+    setHeaderTitle(view);
     setImageCarousel(view);
     return view;
+  }
+
+  public void setHeaderTitle(View view) {
+    tvExhibitName = (TextView) view.findViewById(R.id.tvExhibitName);
+    tvExhibitName.setText(exhibit.getName());
   }
 
   public void setImageCarousel(View view) {
