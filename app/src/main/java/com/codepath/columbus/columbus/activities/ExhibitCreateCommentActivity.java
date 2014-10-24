@@ -91,9 +91,16 @@ public class ExhibitCreateCommentActivity extends SherlockActivity {
       case android.R.id.home:
         // app icon in action bar clicked; goto parent activity.
         this.finish();
+        overridePendingTransition(R.anim.zoom_in, R.anim.slide_out_right);
         return true;
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public void onBackPressed() {
+    super.onBackPressed();
+    overridePendingTransition(R.anim.zoom_in, R.anim.slide_out_right);
   }
 
   private void postCommentAction() {

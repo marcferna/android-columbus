@@ -42,6 +42,12 @@ public class ExhibitListActivity extends FragmentActivity {
       actionBar.setTitle(Html.fromHtml(title));
     }
 
+    @Override
+    public void onBackPressed() {
+      super.onBackPressed();
+      overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
     private void loadFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -56,6 +62,7 @@ public class ExhibitListActivity extends FragmentActivity {
           case android.R.id.home:
             // app icon in action bar clicked; goto parent activity.
             this.finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             return true;
         }
         return super.onOptionsItemSelected(item);

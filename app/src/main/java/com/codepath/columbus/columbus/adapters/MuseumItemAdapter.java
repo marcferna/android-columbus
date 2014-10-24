@@ -64,6 +64,7 @@ public class MuseumItemAdapter extends ArrayAdapter<Museum> {
                 i.putExtra("museumUUID",museum.getBeaconUUID());
                 i.putExtra("museumNickname",museum.getNickname());
                 activity.startActivity(i);
+                activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 

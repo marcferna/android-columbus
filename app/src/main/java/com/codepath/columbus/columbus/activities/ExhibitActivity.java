@@ -176,15 +176,23 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
       case android.R.id.home:
         // app icon in action bar clicked; goto parent activity.
         this.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         return true;
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public void onBackPressed() {
+    super.onBackPressed();
+    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
   }
 
   private void launchCreateCommentActivity() {
     Intent intent = new Intent(this, ExhibitCreateCommentActivity.class);
     intent.putExtra("exhibitId", exhibitId);
     startActivityForResult(intent, CREATE_COMMENT_REQUEST);
+    overridePendingTransition(R.anim.slide_in_right, R.anim.zoom_out);
   }
 
   @Override

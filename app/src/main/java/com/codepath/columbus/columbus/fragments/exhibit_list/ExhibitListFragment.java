@@ -1,6 +1,7 @@
 package com.codepath.columbus.columbus.fragments.exhibit_list;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -166,8 +167,9 @@ public class ExhibitListFragment extends Fragment {
                 Intent i = new Intent(context, ExhibitActivity.class);
                 Exhibit selectedExhibit = (Exhibit) exhibits.get(position);
                 i.putExtra("exhibitId", selectedExhibit.getObjectId());
-                i.putExtra("exhibitName", selectedExhibit.getName());
-                context.startActivity(i);
+                Activity activity = (Activity) context;
+                activity.startActivity(i);
+                activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
     }
