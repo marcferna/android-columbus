@@ -92,7 +92,7 @@ public class MusicService extends Service implements
 
     Notification.Builder builder = new Notification.Builder(this);
     builder.setContentIntent(pendInt)
-           .setSmallIcon(R.drawable.ic_launcher)
+           .setSmallIcon(R.drawable.ic_notification_launcher_hollow)
            .setTicker(exhibitName)
            .setOngoing(true)
            .setContentTitle("Playing Audio Tour")
