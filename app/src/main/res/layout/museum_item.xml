@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:orientation="vertical"
-    android:layout_margin="05dp"
     android:id="@+id/llMuseumItem"
-    >
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/tvMuseum"
-        style="@style/MuseumNameShadowText"
-        android:gravity="center"
-        android:layout_gravity="center" />
-</LinearLayout>
+
+  >
+
+  <FrameLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/museum_shadow_bg">
+
+  </FrameLayout>
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:text="Museum"
+    android:id="@+id/tvMuseum"
+    style="@style/MuseumNameShadowText"
+    android:gravity="center"
+    android:layout_gravity="center" />
+
+</FrameLayout>
