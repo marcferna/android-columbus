@@ -1,6 +1,7 @@
 package com.codepath.columbus.columbus.activities;
 
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -83,6 +84,8 @@ public class LoginActivity extends SherlockFragmentActivity
                 .addApi(Plus.API)
                 .addScope(Plus.SCOPE_PLUS_PROFILE)
                 .build();
+
+        setActionBar();
     }
 
     /* A helper method to resolve the current ConnectionResult error. */
@@ -170,5 +173,12 @@ public class LoginActivity extends SherlockFragmentActivity
         mGoogleApiClient.connect();
     }
 
-
+    public void setActionBar() {
+        ActionBar actionBar = getActionBar();
+      /*
+        String title = "<font color=\""+getResources().getColor(R.color.actionbar_title_color)+"\">Log In</font>";
+        actionBar.setTitle(Html.fromHtml(title));
+       */
+        actionBar.hide();
+    }
 }
