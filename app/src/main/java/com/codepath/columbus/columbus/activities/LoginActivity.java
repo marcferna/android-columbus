@@ -160,6 +160,8 @@ public class LoginActivity extends SherlockFragmentActivity
                 Log.d("LoginActivity","username:"+personName);
                 Log.d("LoginActivity","imageURL:"+personPhotoUrl);
                 Log.d("LoginActivity","email:"+email);
+
+                finish();
             }else{
                 Toast.makeText(this,"Sign in failed. Please try again",Toast.LENGTH_SHORT).show();
             }
