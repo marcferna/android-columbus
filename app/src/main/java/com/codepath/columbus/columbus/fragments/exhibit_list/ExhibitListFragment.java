@@ -199,12 +199,17 @@ public class ExhibitListFragment extends SherlockFragment {
         // Fetch museum object, then fetch the corresponding exhibits
         Log.i("INFO", "querying exhibits for museum id=" + museumId);
         ParseQuery<Museum> query = ParseQuery.getQuery(Museum.class);
+        // First try to find from the cache and only then go to network
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK); // or CACHE_ONLY
         query.whereEqualTo("objectId", museumId);
         query.getFirstInBackground(new GetCallback<Museum>() {
             @Override
             public void done(Museum result, ParseException e) {
                 if (e == null) {
-                    ParseQuery.getQuery(Exhibit.class)
+                    ParseQuery<Exhibit> query = ParseQuery.getQuery(Exhibit.class);
+                    // First try to find from the cache and only then go to network
+                    query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK); // or CACHE_ONLY
+                    query.getQuery(Exhibit.class)
                             .whereEqualTo("museum", result)
                             .findInBackground(new FindCallback<Exhibit>() {
                                 @Override

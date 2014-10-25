@@ -5,14 +5,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
 import android.view.View;
 import android.widget.MediaController.MediaPlayerControl;
 import android.widget.ProgressBar;
@@ -117,6 +114,8 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
 
   public void fetchExhibit() {
     ParseQuery<Exhibit> query = ParseQuery.getQuery(Exhibit.class);
+    // First try to find from the cache and only then go to network
+    query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK); // or CACHE_ONLY
     query.whereEqualTo("objectId", exhibitId);
     query.getFirstInBackground(new GetCallback<Exhibit>() {
       @Override

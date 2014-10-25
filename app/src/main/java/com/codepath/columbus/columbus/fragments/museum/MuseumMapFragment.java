@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.activities.ExhibitListActivity;
+import com.codepath.columbus.columbus.models.Comment;
 import com.codepath.columbus.columbus.models.Museum;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -72,7 +73,10 @@ public class MuseumMapFragment extends Fragment implements
         final BitmapDescriptor defaultMarker =
                 BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
 
-        ParseQuery.getQuery(Museum.class).findInBackground(new FindCallback<Museum>() {
+        ParseQuery<Museum> query = ParseQuery.getQuery(Museum.class);
+        // First try to find from the cache and only then go to network
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK); // or CACHE_ONLY
+        query.findInBackground(new FindCallback<Museum>() {
             @Override
             public void done(List<Museum> museums, ParseException e) {
                 for (final Museum museum : museums) {
