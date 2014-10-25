@@ -62,7 +62,7 @@ public class MuseumActivity extends SherlockFragmentActivity {
 
     public void setActionBar() {
         ActionBar actionBar = getActionBar();
-        String title = "<font color=\""+getResources().getColor(R.color.actionbar_title_color)+"\">Museums</font>";
+        String title = "<font color=\""+getResources().getColor(R.color.actionbar_title_color)+"\">Colombus</font>";
         actionBar.setTitle(Html.fromHtml(title));
     }
 }
