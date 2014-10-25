@@ -4,7 +4,6 @@
     android:layout_height="200dp"
     android:orientation="vertical"
     android:id="@+id/llMuseumItem"
-
   >
 
   <FrameLayout
@@ -20,7 +19,7 @@
     android:textAppearance="?android:attr/textAppearanceMedium"
     android:text="Museum"
     android:id="@+id/tvMuseum"
-    style="@style/MuseumNameShadowText"
+    style="@style/ShadowText"
     android:gravity="center"
     android:layout_gravity="center" />
 

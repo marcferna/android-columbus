@@ -47,7 +47,7 @@
         <item name="android:fadingEdgeLength">8dp</item>
     </style>
 
-    <style name="MuseumNameShadowText">
+    <style name="ShadowText">
         <item name="fontPath">fonts/CircularStd-Bold.otf</item>
         <item name="android:padding">10dp</item>
         <item name="android:textColor">#ffffffff</item>
@@ -56,6 +56,10 @@
         <item name="android:shadowDx">2</item>
         <item name="android:shadowDy">2</item>
         <item name="android:shadowRadius">3</item>
+    </style>
+
+    <style name="ShadowText.Large" parent="ShadowText">
+        <item name="android:textSize">40sp</item>
     </style>
 
     <color name="actionbar_title_color">#423d3d</color>

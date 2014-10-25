@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 
 import com.codepath.columbus.columbus.models.Comment;
 import com.codepath.columbus.columbus.models.Exhibit;
@@ -20,7 +21,6 @@ import com.parse.Parse;
 import com.parse.ParseObject;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by marc on 10/9/14.
@@ -32,6 +32,10 @@ public class ColumbusApplication extends Application{
   @SuppressWarnings("unused")
   public void onCreate() {
     super.onCreate();
+
+    // clear the prefs for next launch force login behavior
+    PreferenceManager.getDefaultSharedPreferences(this).edit().clear().commit();
+
     if (DEVELOPER_MODE
             && Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
       StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
@@ -77,4 +81,5 @@ public class ColumbusApplication extends Application{
   public void setupFonts() {
     CalligraphyConfig.initDefault("assets/fonts/CircularStd-Medium.otf", R.attr.fontPath);
   }
+
 }

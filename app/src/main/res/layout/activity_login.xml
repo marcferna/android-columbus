@@ -5,12 +5,48 @@
     android:background="@drawable/login_bg"
     tools:context="com.codepath.columbus.columbus.fragments.SigninFragment">
 
+    <LinearLayout
+        android:id="@+id/llLogin"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="200dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivColumbus"
+            android:src="@drawable/ic_launcher_hollow"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Columbus"
+            android:textStyle="bold"
+            android:id="@+id/tvAppName"
+            style="@style/ShadowText.Large"
+            android:layout_gravity="center"
+        />
+      </LinearLayout>
+
     <com.google.android.gms.common.SignInButton
         android:id="@+id/btSignIn"
-        android:layout_width="300dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="80dp"
+        android:paddingBottom="50dp"
+        android:layout_below="@+id/llLogin"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
-
 
 </RelativeLayout>

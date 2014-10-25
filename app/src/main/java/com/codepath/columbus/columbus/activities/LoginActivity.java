@@ -7,11 +7,12 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.codepath.columbus.columbus.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
@@ -19,7 +20,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
-public class LoginActivity extends SherlockFragmentActivity
+public class LoginActivity extends FragmentActivity
         implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
@@ -44,6 +45,25 @@ public class LoginActivity extends SherlockFragmentActivity
 
     /* Request code used to invoke sign in user interactions. */
     private static final int RC_SIGN_IN = 0;
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onStart() {
@@ -114,9 +134,6 @@ public class LoginActivity extends SherlockFragmentActivity
             if (!mGoogleApiClient.isConnecting()) {
                 mGoogleApiClient.connect();
             }
-
-            finish();
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         }
     }
 
@@ -183,6 +200,6 @@ public class LoginActivity extends SherlockFragmentActivity
         String title = "<font color=\""+getResources().getColor(R.color.actionbar_title_color)+"\">Log In</font>";
         actionBar.setTitle(Html.fromHtml(title));
        */
-        actionBar.hide();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 }

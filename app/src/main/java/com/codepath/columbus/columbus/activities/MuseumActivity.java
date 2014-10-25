@@ -85,25 +85,30 @@ public class MuseumActivity extends SherlockFragmentActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String imageURL = sharedPreferences.getString("imageURL",null);
 
-        if (imageURL != null && loginItem != null){
-            // by default the profile url gives 50x50 px image only
-            imageURL = imageURL.substring(0,imageURL.length() - 2)+ 80;
+        if (loginItem != null) {
+            if (imageURL != null) {
+                // by default the profile url gives 50x50 px image only
+                imageURL = imageURL.substring(0, imageURL.length() - 2) + 80;
 
-            // set the profile image
-            ImageLoader.getInstance().loadImage(imageURL,new ImageLoadingListener() {
-                public void onLoadingStarted(String imageUri, View view) {
-                }
+                // set the profile image
+                ImageLoader.getInstance().loadImage(imageURL, new ImageLoadingListener() {
+                    public void onLoadingStarted(String imageUri, View view) {
+                    }
 
-                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                }
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                    }
 
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    loginItem.setIcon(new RoundedAvatarDrawable(loadedImage));
-                }
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        loginItem.setIcon(new RoundedAvatarDrawable(loadedImage));
+                    }
 
-                public void onLoadingCancelled(String imageUri, View view) {
-                }
-            });
+                    public void onLoadingCancelled(String imageUri, View view) {
+                    }
+                });
+            } else {
+                // if not signed in
+                loginItem.setIcon(getResources().getDrawable(R.drawable.ic_login));
+            }
         }
     }
 }

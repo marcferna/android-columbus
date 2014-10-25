@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.codepath.columbus.columbus.R;
@@ -48,6 +47,7 @@ public class MuseumItemAdapter extends ArrayAdapter<Museum> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.museum_item,parent,false);
 
             viewHolder.llMuseum = (FrameLayout)convertView.findViewById(R.id.llMuseumItem);
+
             viewHolder.tvMuseumName = (TextView)convertView.findViewById(R.id.tvMuseum);
 
             convertView.setTag(viewHolder);
