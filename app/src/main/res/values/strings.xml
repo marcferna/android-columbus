@@ -22,5 +22,7 @@
     <string name="exhibit_create_comment_button_post">Post</string>
     <string name="exhibit_create_comment_button_cancel">Cancel</string>
   <string name="media_player_loading">Loading audio tour...</string>
+  <string name="create_comment_title">How likely are you to recommend this exhibit to a friend?</string>
+  <string name="create_comment_leave_comment">What do you think about this exhibit?</string>
 
 </resources>

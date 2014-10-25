@@ -167,6 +167,7 @@ public class ExhibitListFragment extends Fragment {
                 Intent i = new Intent(context, ExhibitActivity.class);
                 Exhibit selectedExhibit = (Exhibit) exhibits.get(position);
                 i.putExtra("exhibitId", selectedExhibit.getObjectId());
+                i.putExtra("exhibitName", selectedExhibit.getName());
                 Activity activity = (Activity) context;
                 activity.startActivity(i);
                 activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

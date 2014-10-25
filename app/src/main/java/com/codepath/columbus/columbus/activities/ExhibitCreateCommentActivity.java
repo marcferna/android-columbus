@@ -1,6 +1,7 @@
 package com.codepath.columbus.columbus.activities;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,11 +22,14 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class ExhibitCreateCommentActivity extends SherlockActivity {
 
   SharedPreferences sharedPreferences;
 
   String exhibitId;
+  String exhibitName;
   Exhibit exhibit;
 
   // UI Elements
@@ -33,10 +37,16 @@ public class ExhibitCreateCommentActivity extends SherlockActivity {
   TextView tvCommentBody;
 
   @Override
+  protected void attachBaseContext(Context newBase) {
+    super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+  }
+
+  @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_exhibit_create_comment);
     exhibitId = getIntent().getStringExtra("exhibitId");
+    exhibitName = getIntent().getStringExtra("exhibitName");
     sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     fetchExhibit();
     setViews();
@@ -46,7 +56,7 @@ public class ExhibitCreateCommentActivity extends SherlockActivity {
   public void setActionBar() {
     ActionBar actionBar = getActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setTitle("Comment");
+    actionBar.setTitle(exhibitName);
   }
 
   private void fetchExhibit() {

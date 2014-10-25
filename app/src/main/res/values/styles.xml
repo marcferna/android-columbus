@@ -10,6 +10,7 @@
         <item name="android:actionBarTabStyle">@style/MyTheme.ActionBar.TabView</item>
         <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
         <item name="android:homeAsUpIndicator">@drawable/abs__ic_ab_back_holo_light</item>
+        <item name="android:ratingBarStyle">@style/MyCustomTheme.RatingBar</item>
     </style>
 
     <!-- Theme without ActionBar shadow (inherits main theme) -->
@@ -38,7 +39,7 @@
 
     <style name="CustomTabPageIndicator"  parent="Widget.TabPageIndicator">
         <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/pink_orange</item>
+        <item name="android:textColor">@color/reef</item>
         <item name="android:background">@drawable/custom_tab_indicator</item>
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingLeft">8dp</item>
@@ -69,5 +70,19 @@
       <item name="android:shadowRadius">3</item>
 
     </style>
+
+    <style name="MyCustomTheme.RatingBar" parent="@android:style/Widget.RatingBar">
+      <item name="android:progressDrawable">@drawable/ratingbar_custom</item>
+      <item name="android:minHeight">40dip</item>
+      <item name="android:maxHeight">40dip</item>
+    </style>
+
+    <style name="MyCustomTheme.TextAppearance.Large.Circular" parent="android:TextAppearance.Large">
+      <item name="fontPath">fonts/CircularStd-Bold.otf</item>
+      <item name="android:textSize">20sp</item>
+      <item name="android:textColor">@color/femme</item>
+    </style>
+
+
 
 </resources>

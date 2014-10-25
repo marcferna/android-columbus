@@ -68,6 +68,7 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
     setContentView(R.layout.activity_exhibit);
 
     exhibitId = getIntent().getStringExtra("exhibitId");
+    exhibitName = getIntent().getStringExtra("exhibitName");
     setActionBar();
     setViews();
     fetchExhibit();
@@ -191,6 +192,7 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
   private void launchCreateCommentActivity() {
     Intent intent = new Intent(this, ExhibitCreateCommentActivity.class);
     intent.putExtra("exhibitId", exhibitId);
+    intent.putExtra("exhibitName", exhibitName);
     startActivityForResult(intent, CREATE_COMMENT_REQUEST);
     overridePendingTransition(R.anim.slide_in_right, R.anim.zoom_out);
   }
