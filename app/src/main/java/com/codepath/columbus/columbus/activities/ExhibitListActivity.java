@@ -25,6 +25,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ExhibitListActivity extends SherlockFragmentActivity {
     private ExhibitListFragment exhibitListFragment;
+    private ExhibitListSearchFragment exhibitListSearchFragment;
 
     private String museumNickname;
     private String museumId;
@@ -80,7 +81,7 @@ public class ExhibitListActivity extends SherlockFragmentActivity {
         searchView.setOnQueryTextListener(new OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchExhibits(query);
+                loadSearchFragment(query);
                 return true;
             }
 
@@ -93,13 +94,13 @@ public class ExhibitListActivity extends SherlockFragmentActivity {
     }
 
 
-    public void searchExhibits(String query) {
-        Intent i = new Intent(ExhibitListActivity.this, SearchActivity.class);
-        i.putExtra("museumId", museumId);
-        i.putExtra("queryString", query);
-        i.putExtra("museumNickname", museumNickname);
-        startActivity(i);
-
+    public void loadSearchFragment(String query) {
+        exhibitListSearchFragment = ExhibitListSearchFragment.newInstance(museumId, query);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.flListContainer, exhibitListSearchFragment);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     @Override
