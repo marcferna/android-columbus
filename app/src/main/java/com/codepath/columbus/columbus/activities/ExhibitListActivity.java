@@ -1,22 +1,30 @@
 package com.codepath.columbus.columbus.activities;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.fragments.exhibit_list.ExhibitListFragment;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 
 public class ExhibitListActivity extends FragmentActivity {
     private ExhibitListFragment exhibitListFragment;
 
     private String museumNickname;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+      super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +45,7 @@ public class ExhibitListActivity extends FragmentActivity {
     public void setActionBar() {
       ActionBar actionBar = getActionBar();
       actionBar.setDisplayHomeAsUpEnabled(true);
-
-      String title = "<font color=\""+getResources().getColor(R.color.actionbar_title_color)+"\">"+museumNickname + " Exhibits </font>";
-      actionBar.setTitle(Html.fromHtml(title));
+      actionBar.setTitle(museumNickname + " Exhibits");
     }
 
     @Override
