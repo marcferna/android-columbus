@@ -48,6 +48,7 @@ public class MuseumActivity extends SherlockFragmentActivity {
             case R.id.action_login:
                 Intent i = new Intent(this,LoginActivity.class);
                 startActivity(i);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 return true;
             default:
                 return true;

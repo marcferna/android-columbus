@@ -116,6 +116,7 @@ public class LoginActivity extends SherlockFragmentActivity
             }
 
             finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         }
     }
 
@@ -162,6 +163,7 @@ public class LoginActivity extends SherlockFragmentActivity
                 Log.d("LoginActivity","email:"+email);
 
                 finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }else{
                 Toast.makeText(this,"Sign in failed. Please try again",Toast.LENGTH_SHORT).show();
             }
