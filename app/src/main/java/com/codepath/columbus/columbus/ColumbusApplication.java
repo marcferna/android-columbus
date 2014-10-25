@@ -75,6 +75,6 @@ public class ColumbusApplication extends Application{
   }
 
   public void setupFonts() {
-    CalligraphyConfig.initDefault("assets/fonts/CircularStd-Bold.otf", R.attr.fontPath);
+    CalligraphyConfig.initDefault("assets/fonts/CircularStd-Medium.otf", R.attr.fontPath);
   }
 }
