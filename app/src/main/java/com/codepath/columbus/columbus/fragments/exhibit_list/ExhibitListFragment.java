@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.codepath.columbus.columbus.R;
 import com.codepath.columbus.columbus.activities.ExhibitActivity;
 import com.codepath.columbus.columbus.adapters.ExhibitListAdapter;
@@ -41,7 +41,7 @@ import uk.co.senab.actionbarpulltorefresh.extras.actionbarsherlock.PullToRefresh
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
-public class ExhibitListFragment extends Fragment {
+public class ExhibitListFragment extends SherlockFragment {
     private PtrStickyListHeadersListView lvExhibitList;
     private ArrayList<Exhibit> exhibits;
     private ArrayAdapter<Exhibit> aExhibits;
@@ -257,9 +257,11 @@ public class ExhibitListFragment extends Fragment {
 
     private Exhibit findExhibitByBeaconId(String beaconID) {
         for(Exhibit exhibit: exhibits) {
-            Log.i("INFO", "comparing with " + exhibit.getBeaconId());
-            if(exhibit.getBeaconId().equalsIgnoreCase(beaconID)) {
-                return exhibit;
+            if(exhibit.getBeaconId() != null) {
+                Log.i("INFO", "comparing with " + exhibit.getBeaconId());
+                if (exhibit.getBeaconId().equalsIgnoreCase(beaconID)) {
+                    return exhibit;
+                }
             }
         }
         return null;
