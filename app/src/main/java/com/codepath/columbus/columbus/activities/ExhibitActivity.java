@@ -5,14 +5,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
 import android.view.View;
 import android.widget.MediaController.MediaPlayerControl;
 import android.widget.ProgressBar;
@@ -68,6 +65,7 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
     setContentView(R.layout.activity_exhibit);
 
     exhibitId = getIntent().getStringExtra("exhibitId");
+    exhibitName = getIntent().getStringExtra("exhibitName");
     setActionBar();
     setViews();
     fetchExhibit();
@@ -116,6 +114,8 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
 
   public void fetchExhibit() {
     ParseQuery<Exhibit> query = ParseQuery.getQuery(Exhibit.class);
+    // First try to find from the cache and only then go to network
+    query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK); // or CACHE_ONLY
     query.whereEqualTo("objectId", exhibitId);
     query.getFirstInBackground(new GetCallback<Exhibit>() {
       @Override
@@ -191,6 +191,7 @@ public class ExhibitActivity extends SherlockFragmentActivity implements MediaPl
   private void launchCreateCommentActivity() {
     Intent intent = new Intent(this, ExhibitCreateCommentActivity.class);
     intent.putExtra("exhibitId", exhibitId);
+    intent.putExtra("exhibitName", exhibitName);
     startActivityForResult(intent, CREATE_COMMENT_REQUEST);
     overridePendingTransition(R.anim.slide_in_right, R.anim.zoom_out);
   }

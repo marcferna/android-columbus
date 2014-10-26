@@ -63,7 +63,9 @@ public class MuseumListFragment extends Fragment {
         lvMuseums.setAdapter(museumItemAdapter);
 
         // fetch museum list
-        ParseQuery<Museum> query = ParseQuery.getQuery("Museum");
+        ParseQuery<Museum> query = ParseQuery.getQuery(Museum.class);
+        // First try to find from the cache and only then go to network
+        query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK); // or CACHE_ONLY
         query.orderByAscending("name");
         query.findInBackground(new FindCallback<Museum>() {
             @Override
