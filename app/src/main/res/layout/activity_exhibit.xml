@@ -29,6 +29,12 @@
     android:layout_alignParentEnd="true">
   </FrameLayout>
 
+  <FrameLayout
+    android:layout_width="fill_parent"
+    android:layout_height="5dp"
+    android:background="@drawable/player_shadow"
+    android:layout_above="@+id/playerLayout"/>
+
   <LinearLayout
     android:id="@+id/playerLayout"
     android:layout_width="fill_parent"

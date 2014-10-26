@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/polar_bear"
-    tools:context="com.codepath.columbus.columbus.fragments.exhibit.ExhibitDescriptionFragment">
+    tools:context="com.codepath.columbus.columbus.fragments.exhibit.ExhibitDescriptionFragment"
+  >
 
   <TextView
     android:layout_width="match_parent"
@@ -13,11 +14,15 @@
     android:layout_alignParentStart="true"
     android:layout_alignParentRight="true"
     android:layout_alignParentEnd="true"
-    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:textAppearance="@style/MyCustomTheme.TextAppearance.Medium.Circular"
     android:scrollbars = "vertical"
     android:singleLine = "false"
     android:background="@color/polar_bear"
     android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque gravida lectus a semper ullamcorper. Quisque ac ligula elit. Pellentesque nec laoreet dolor, vulputate rutrum justo. Nunc consequat ac erat sit amet semper. Morbi sed ex eget neque sagittis vehicula. Donec efficitur at erat eu venenatis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras efficitur eu tortor malesuada ullamcorper.  Nulla et gravida erat, in commodo eros. Sed auctor velit sapien, ac pellentesque ipsum hendrerit sit amet. Proin aliquam nulla sit amet porta fringilla. Praesent id lorem elit. Nunc egestas urna justo, et suscipit libero venenatis id. Proin volutpat maximus purus eget placerat. Vestibulum posuere lectus lorem. Vestibulum lorem eros, iaculis sed laoreet ac, sagittis eget nisi. Quisque aliquet tortor sit amet enim ultricies accumsan. Nullam mattis venenatis justo nec aliquam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vestibulum ornare arcu non erat mollis, et iaculis neque posuere.  Etiam tincidunt at arcu molestie consequat. Sed luctus facilisis scelerisque. Donec at consectetur lorem, tincidunt vestibulum libero. Aenean rutrum velit ultrices lacus iaculis mollis et vitae ipsum. Mauris consequat iaculis magna sit amet facilisis. Nunc condimentum nunc vel fermentum tincidunt. Quisque fringilla maximus malesuada. Ut quis nisi sagittis, iaculis massa sed, porttitor neque. Nam accumsan dui erat, id tincidunt nulla tincidunt id. Curabitur sit amet felis velit. Praesent a enim egestas, sagittis risus nec, tincidunt lectus.  Quisque laoreet efficitur pretium. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin id interdum eros. Etiam a erat sem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris ullamcorper ultricies sagittis. Proin molestie vulputate turpis quis facilisis. In sit amet consequat ligula. In pretium enim a erat pellentesque laoreet. Praesent luctus sapien dolor, ut volutpat velit lacinia at. Maecenas at nibh quis est porta faucibus eu sit amet nulla. Donec imperdiet nisl malesuada, imperdiet risus id, tincidunt est. Praesent sagittis, nunc feugiat rutrum finibus, felis erat dictum sem, id facilisis elit magna at nunc. Donec tempus eleifend lacinia. Suspendisse consectetur dui et libero ultrices, nec luctus sapien vulputate.  Etiam id metus feugiat, porta arcu et, suscipit ante. Proin est ipsum, cursus sed sodales sed, posuere a mi. Nulla eu blandit ex, at pulvinar orci. Maecenas rutrum mi id tortor consectetur, imperdiet venenatis mi aliquam. Aenean varius eros id erat pulvinar, vel luctus est gravida. Maecenas vel diam massa. Maecenas interdum sagittis tempus. Ut neque erat, sodales eget ornare ac, accumsan non mauris. Vestibulum ut mi eu ante aliquam hendrerit eget vitae magna. Etiam malesuada urna ut malesuada laoreet. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam tincidunt lorem eu semper bibendum. Aliquam erat volutpat. Praesent nec nisl at ligula suscipit euismod at a purus. Vestibulum bibendum semper ex ut facilisis. Nunc consectetur augue et lectus hendrerit malesuada vel id turpis."
     android:id="@+id/tvDescription"
+    android:paddingTop="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="20dp"
   />
 </ScrollView>
